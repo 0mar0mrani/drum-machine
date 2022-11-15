@@ -23,19 +23,22 @@ export default function DrumMachine() {
 		})
 	}
 
-	// Methods
+	// Handlers
 	function handleCheckboxChange(event, index) {
 		pattern[index] = !pattern[index];
-		console.log(pattern);
 	}
 	
 	function handlePlayButtonClick() {
-		isPlaying = !isPlaying;
-
-		toggleKickPattern();
+		toggleIsPlaying();
+		playSample();
 	}
 
-	function toggleKickPattern() {
+	//Functions
+	function toggleIsPlaying () {
+		isPlaying = !isPlaying;
+	}
+
+	function playSample() {
 		 if (isPlaying) {
 			sampleInterval = setInterval(function() {
 				if (pattern[currentPatternIndex]) {
@@ -43,24 +46,38 @@ export default function DrumMachine() {
 					kick.play()
 				} 
 
-				for (const checkBox of checkBoxes) {
-					checkBox.classList.remove('drum-machine__checkbox--active');
-				}
-
-				checkBoxes[currentPatternIndex].classList.add('drum-machine__checkbox--active')
-
-				console.log(`Current index is ${currentPatternIndex}`);
-
-				if (currentPatternIndex === 15) {
-					currentPatternIndex = 0;
-				} else {
-					currentPatternIndex += 1;
-				}
+				toggleActiveClass();
+				setNextPatternIndex();
 
 			}, sixteenthNoteInMilliseconds) 
 
 		} else {
-			clearInterval(sampleInterval)
+			clearInterval(sampleInterval);
+			initializeDrumMachine();
 		}
 	}
+
+	function toggleActiveClass() {
+		for (const checkBox of checkBoxes) {
+			checkBox.classList.remove('drum-machine__checkbox--active');
+		}
+
+		checkBoxes[currentPatternIndex].classList.add('drum-machine__checkbox--active')
+	}
+
+	function setNextPatternIndex() {
+		if (currentPatternIndex === 15) {
+			currentPatternIndex = 0;
+		} else {
+			currentPatternIndex += 1;
+		}
+	}
+
+	function initializeDrumMachine() {
+		for (const checkBox of checkBoxes) {
+			checkBox.classList.remove('drum-machine__checkbox--active');
+		}
+
+		currentPatternIndex = 0;
+	} 
 }
