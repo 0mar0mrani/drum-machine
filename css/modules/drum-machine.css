@@ -1,15 +1,27 @@
+.drum-machine__play-button {
+	font-size: 4rem;
+}
+
 .drum-machine__checkboxes {
 	display: flex;
 	justify-content: space-between;
 	padding: 1rem;
 }
 
+.drum-machine__checkboxes:nth-child(4) {
+	border: 1px solid #000;
+}
+
 .drum-machine__checkbox {
 	width: 2rem;
 	height: 2rem;
-	transition: all 0.05s;
+	accent-color: blue;
+	background-color: red;
 }
 
 .drum-machine__checkbox--active {
+
 	transform: scale(1.2);
+	accent-color: purple;
+	border-left: 4px solid #000;
 }
