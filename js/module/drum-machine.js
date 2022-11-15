@@ -16,6 +16,7 @@ export default function DrumMachine() {
 
 	// Eventlisteners
 	playButton.addEventListener('click', handlePlayButtonClick)
+	window.addEventListener('keydown', handleWindowKeydown)
 
 	for (let index = 0; index < checkBoxes.length; index += 1) {
 		checkBoxes[index].addEventListener('change', () => {
@@ -33,6 +34,13 @@ export default function DrumMachine() {
 		playSample();
 	}
 
+	function handleWindowKeydown(event) {
+		if (event.key === ' ') {
+			toggleIsPlaying();
+			playSample(); 
+		}
+	}
+ 
 	//Functions
 	function toggleIsPlaying () {
 		isPlaying = !isPlaying;
@@ -47,6 +55,7 @@ export default function DrumMachine() {
 				} 
 
 				toggleActiveClass();
+
 				setNextPatternIndex();
 
 			}, sixteenthNoteInMilliseconds) 
