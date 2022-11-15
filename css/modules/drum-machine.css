@@ -1,0 +1,15 @@
+.drum-machine__checkboxes {
+	display: flex;
+	justify-content: space-between;
+	padding: 1rem;
+}
+
+.drum-machine__checkbox {
+	width: 2rem;
+	height: 2rem;
+	transition: all 0.05s;
+}
+
+.drum-machine__checkbox--active {
+	transform: scale(1.2);
+}

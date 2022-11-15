@@ -36,13 +36,19 @@ export default function DrumMachine() {
 	}
 
 	function toggleKickPattern() {
-		if (isPlaying) {
+		 if (isPlaying) {
 			sampleInterval = setInterval(function() {
 				if (pattern[currentPatternIndex]) {
 					const kick = new Audio('/assets/audio/kick.wav'); 
 					kick.play()
 				} 
-				
+
+				for (const checkBox of checkBoxes) {
+					checkBox.classList.remove('drum-machine__checkbox--active');
+				}
+
+				checkBoxes[currentPatternIndex].classList.add('drum-machine__checkbox--active')
+
 				console.log(`Current index is ${currentPatternIndex}`);
 
 				if (currentPatternIndex === 15) {
