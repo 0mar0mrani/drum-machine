@@ -12,11 +12,13 @@ export default function DrumMachine() {
 
 	// QuerrySelectors
 	const playButton = document.querySelector('.drum-machine__play-button');
-	const checkBoxes = document.querySelectorAll('.drum-machine__checkbox')
+	const resetButton = document.querySelector('.drum-machine__reset-button');
+	const checkBoxes = document.querySelectorAll('.drum-machine__checkbox');
 
 	// Eventlisteners
-	playButton.addEventListener('click', handlePlayButtonClick)
-	window.addEventListener('keydown', handleWindowKeydown)
+	playButton.addEventListener('click', handlePlayButtonClick);
+	window.addEventListener('keydown', handleWindowKeydown);
+	resetButton.addEventListener('click', handleResetButtonClick);
 
 	for (let index = 0; index < checkBoxes.length; index += 1) {
 		checkBoxes[index].addEventListener('change', () => {
@@ -40,6 +42,10 @@ export default function DrumMachine() {
 			playSample(); 
 		}
 	}
+
+	function handleResetButtonClick() {
+		removeFullPattern();
+	}
  
 	//Functions
 	function toggleIsPlaying () {
@@ -62,7 +68,7 @@ export default function DrumMachine() {
 
 		} else {
 			clearInterval(sampleInterval);
-			initializeDrumMachine();
+			resetDrumMachine();
 		}
 	}
 
@@ -82,11 +88,18 @@ export default function DrumMachine() {
 		}
 	}
 
-	function initializeDrumMachine() {
+	function resetDrumMachine() {
 		for (const checkBox of checkBoxes) {
 			checkBox.classList.remove('drum-machine__checkbox--active');
 		}
 
 		currentPatternIndex = 0;
 	} 
+
+	function removeFullPattern() {
+		for (let index = 0; index < checkBoxes.length; index += 1) {
+			pattern[index] = false;
+			checkBoxes[index].checked = false;
+		}
+	}
 }
