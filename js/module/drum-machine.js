@@ -9,7 +9,6 @@ export default function DrumMachine() {
 	let isPlaying = false; 
 	let sampleInterval;
 
-
 	// QuerrySelectors
 	const playButton = document.querySelector('.drum-machine__play-button');
 	const resetButton = document.querySelector('.drum-machine__reset-button');
@@ -52,19 +51,81 @@ export default function DrumMachine() {
 		isPlaying = !isPlaying;
 	}
 
+	const importButton = document.querySelector('.drum-machine__import-button');
+	const triggerButton = document.querySelector('.drum-machine__trigger-button');
+	importButton.addEventListener('click', handleImportButtonClick);
+	triggerButton.addEventListener('click', handleTriggerButtonClick);
+	
+	const samplePaths = ['/assets/audio/kick.wav']
+	let samples;
+	let timerID;
+	let audioContext;
+
+	async function getFile(filePath) {
+		const response = await fetch(filePath);
+		const arrayBuffer = await response.arrayBuffer();
+		const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+		return audioBuffer;
+	} 
+
+	async function setupSamples(paths) {
+		console.log('Setting up samples');
+		const audioBuffers = [];
+
+		for (const path of paths) {
+			const sample = await getFile(path)
+			audioBuffers.push(sample)
+		}
+
+		console.log('setting up done');
+
+		return audioBuffers;
+	}
+
+	function handleImportButtonClick() {
+		audioContext = new AudioContext();
+		console.log('hei');
+		
+		setupSamples(samplePaths).then((response) => {
+			samples = response;
+			console.log(samples);
+		})
+	}
+
+	function handleTriggerButtonClick() {
+		queueSample(samples[0], audioContext.currentTime);
+
+		console.log(audioContext.currentTime);
+	}
+
+	function queueSample(audioBuffer, time) {
+		const sampleSource = audioContext.createBufferSource();
+		sampleSource.buffer = audioBuffer;
+		sampleSource.connect(audioContext.destination);
+		sampleSource.start(time)
+	}
+
+	const lookahead = 25.0; 
+	const scheduleAheadTime = 0.5; 
+	let nextTriggerTime = 0 // seconds
+
+	function scheduler() {
+		if (nextTriggerTime === 0) {
+			nextTriggerTime = audioContext.currentTime;
+		}
+		
+		while (nextTriggerTime < audioContext.currentTime + scheduleAheadTime) {
+			queueSample(samples[0], nextTriggerTime);
+			nextTriggerTime += (sixteenthNoteInMilliseconds / 1000); 
+			setNextPatternIndex();
+		}
+
+		timerID = setTimeout(scheduler, lookahead)
+	}
+
 	function playSample() {
-		 if (isPlaying) {
-			sampleInterval = setInterval(function() {
-				if (pattern[currentPatternIndex]) {
-					const kick = new Audio('/assets/audio/kick.wav'); 
-					kick.play()
-				} 
-
-				toggleActiveClass();
-
-				setNextPatternIndex();
-
-			}, sixteenthNoteInMilliseconds) 
+		if (isPlaying) {
+			scheduler();
 
 		} else {
 			clearInterval(sampleInterval);
