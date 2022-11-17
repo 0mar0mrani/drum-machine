@@ -12,21 +12,21 @@ export default function DrumMachine() {
 	// QuerrySelectors
 	const playButton = document.querySelector('.drum-machine__play-button');
 	const resetButton = document.querySelector('.drum-machine__reset-button');
-	const sequencer = document.querySelectorAll('.drum-machine__checkbox');
+	const sequencerSteps = document.querySelectorAll('.drum-machine__sequencer-step');
 
 	// Eventlisteners
 	playButton.addEventListener('click', handlePlayButtonClick);
 	window.addEventListener('keydown', handleWindowKeydown);
 	resetButton.addEventListener('click', handleResetButtonClick);
 
-	for (let index = 0; index < sequencer.length; index += 1) {
-		sequencer[index].addEventListener('click', () => {
-			handleSequencerClick(event, index);
+	for (let index = 0; index < sequencerSteps.length; index += 1) {
+		sequencerSteps[index].addEventListener('click', () => {
+			handleSequencerStepsClick(event, index);
 		})
 	}
 
 	// Handlers
-	function handleSequencerClick(event, index) {
+	function handleSequencerStepsClick(event, index) {
 		pattern[index] = !pattern[index];
 		renderSequence()
 	}
@@ -141,11 +141,11 @@ export default function DrumMachine() {
 	}
 
 	function toggleActiveClass() {
-		for (const checkBox of sequencer) {
-			checkBox.classList.remove('drum-machine__checkbox--active');
+		for (const checkBox of sequencerSteps) {
+			checkBox.classList.remove('drum-machine__sequencer-play-head');
 		}
 
-		sequencer[currentPatternIndex].classList.add('drum-machine__checkbox--active')
+		sequencerSteps[currentPatternIndex].classList.add('drum-machine__sequencer-play-head');
 	}
 
 	function setNextPatternIndex() {
@@ -157,7 +157,7 @@ export default function DrumMachine() {
 	}
 
 	function resetDrumMachine() {
-		for (const checkBox of sequencer) {
+		for (const checkBox of sequencerSteps) {
 			checkBox.classList.remove('drum-machine__checkbox--active');
 		}
 
@@ -165,18 +165,18 @@ export default function DrumMachine() {
 	} 
 
 	function removeFullPattern() {
-		for (let index = 0; index < sequencer.length; index += 1) {
+		for (let index = 0; index < sequencerSteps.length; index += 1) {
 			pattern[index] = false;
-			sequencer[index].checked = false;
+			sequencerSteps[index].checked = false;
 		}
 	}
 
 	function renderSequence() {
 		for (let index = 0; index < pattern.length; index += 1) {
 			if (pattern[index]) {
-				sequencer[index].classList.add('drum-machine__step--active')
+				sequencerSteps[index].classList.add('drum-machine__step--active')
 			} else {
-				sequencer[index].classList.remove('drum-machine__step--active')
+				sequencerSteps[index].classList.remove('drum-machine__step--active')
 			}
 		}
 	}
