@@ -4,7 +4,7 @@ export default function DrumMachine() {
 	const bpmInMilliseconds = (60 / bpm) * 1000;
 	const sixteenthNoteInMilliseconds = bpmInMilliseconds / 4
 
-	const pattern = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,]
+	const pattern = [true, false, false, false, true, false, false, false, true, false, false, false, true, false, false, false,]
 	let currentPatternIndex = 0
 	let isPlaying = false; 
 	let sampleInterval;
@@ -12,22 +12,23 @@ export default function DrumMachine() {
 	// QuerrySelectors
 	const playButton = document.querySelector('.drum-machine__play-button');
 	const resetButton = document.querySelector('.drum-machine__reset-button');
-	const checkBoxes = document.querySelectorAll('.drum-machine__checkbox');
+	const sequencer = document.querySelectorAll('.drum-machine__checkbox');
 
 	// Eventlisteners
 	playButton.addEventListener('click', handlePlayButtonClick);
 	window.addEventListener('keydown', handleWindowKeydown);
 	resetButton.addEventListener('click', handleResetButtonClick);
 
-	for (let index = 0; index < checkBoxes.length; index += 1) {
-		checkBoxes[index].addEventListener('change', () => {
-			handleCheckboxChange(event, index);
+	for (let index = 0; index < sequencer.length; index += 1) {
+		sequencer[index].addEventListener('click', () => {
+			handleSequencerClick(event, index);
 		})
 	}
 
 	// Handlers
-	function handleCheckboxChange(event, index) {
+	function handleSequencerClick(event, index) {
 		pattern[index] = !pattern[index];
+		renderSequence()
 	}
 	
 	function handlePlayButtonClick() {
@@ -123,6 +124,10 @@ export default function DrumMachine() {
 		}
 
 		timerID = setTimeout(scheduler, lookahead)
+
+		sampleInterval = setInterval(function() {
+			toggleActiveClass();
+		}, sixteenthNoteInMilliseconds) 
 	}
 
 	function playSample() {
@@ -136,11 +141,11 @@ export default function DrumMachine() {
 	}
 
 	function toggleActiveClass() {
-		for (const checkBox of checkBoxes) {
+		for (const checkBox of sequencer) {
 			checkBox.classList.remove('drum-machine__checkbox--active');
 		}
 
-		checkBoxes[currentPatternIndex].classList.add('drum-machine__checkbox--active')
+		sequencer[currentPatternIndex].classList.add('drum-machine__checkbox--active')
 	}
 
 	function setNextPatternIndex() {
@@ -152,7 +157,7 @@ export default function DrumMachine() {
 	}
 
 	function resetDrumMachine() {
-		for (const checkBox of checkBoxes) {
+		for (const checkBox of sequencer) {
 			checkBox.classList.remove('drum-machine__checkbox--active');
 		}
 
@@ -160,17 +165,18 @@ export default function DrumMachine() {
 	} 
 
 	function removeFullPattern() {
-		for (let index = 0; index < checkBoxes.length; index += 1) {
+		for (let index = 0; index < sequencer.length; index += 1) {
 			pattern[index] = false;
-			checkBoxes[index].checked = false;
+			sequencer[index].checked = false;
 		}
 	}
 
 	function renderSequence() {
 		for (let index = 0; index < pattern.length; index += 1) {
-
 			if (pattern[index]) {
-				checkBoxes[index].checked = true
+				sequencer[index].classList.add('drum-machine__step--active')
+			} else {
+				sequencer[index].classList.remove('drum-machine__step--active')
 			}
 		}
 	}

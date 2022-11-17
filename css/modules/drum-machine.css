@@ -14,15 +14,16 @@
 }
 
 .drum-machine__checkbox {
-	width: 2rem;
-	height: 2rem;
-	accent-color: blue;
-	background-color: red;
+	width: 4rem;
+	height: 4rem;
 }
 
 .drum-machine__checkbox--active {
-
 	transform: scale(1.2);
 	accent-color: purple;
 	border-left: 4px solid #000;
+}
+
+.drum-machine__step--active {
+	background-color: blue;
 }
