@@ -84,7 +84,6 @@ export default function DrumMachine() {
 
 	function handleImportButtonClick() {
 		audioContext = new AudioContext();
-		console.log('hei');
 		
 		setupSamples(samplePaths).then((response) => {
 			samples = response;
@@ -115,7 +114,10 @@ export default function DrumMachine() {
 		}
 		
 		while (nextTriggerTime < audioContext.currentTime + scheduleAheadTime) {
-			queueSample(samples[0], nextTriggerTime);
+			console.log(pattern[currentPatternIndex]);
+			if (pattern[currentPatternIndex]) {
+				queueSample(samples[0], nextTriggerTime);
+			}
 			nextTriggerTime += (sixteenthNoteInMilliseconds / 1000); 
 			setNextPatternIndex();
 		}
