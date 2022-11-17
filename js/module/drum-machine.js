@@ -105,7 +105,7 @@ export default function DrumMachine() {
 	}
 
 	const lookahead = 25.0; 
-	const scheduleAheadTime = 0.5; 
+	const scheduleAheadTime = 0.1; 
 	let nextTriggerTime = 0 // seconds
 
 	function scheduler() {
