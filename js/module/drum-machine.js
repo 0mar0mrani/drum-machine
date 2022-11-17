@@ -114,10 +114,10 @@ export default function DrumMachine() {
 		}
 		
 		while (nextTriggerTime < audioContext.currentTime + scheduleAheadTime) {
-			console.log(pattern[currentPatternIndex]);
 			if (pattern[currentPatternIndex]) {
 				queueSample(samples[0], nextTriggerTime);
 			}
+
 			nextTriggerTime += (sixteenthNoteInMilliseconds / 1000); 
 			setNextPatternIndex();
 		}
@@ -165,4 +165,15 @@ export default function DrumMachine() {
 			checkBoxes[index].checked = false;
 		}
 	}
+
+	function renderSequence() {
+		for (let index = 0; index < pattern.length; index += 1) {
+
+			if (pattern[index]) {
+				checkBoxes[index].checked = true
+			}
+		}
+	}
+
+	renderSequence();
 }
