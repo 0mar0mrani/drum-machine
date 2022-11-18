@@ -44,7 +44,10 @@ export default function DrumMachine() {
 	function handlePlayButtonClick() {
 		toggleIsPlaying();
 		toggleSequence();
+
+		if (!isPlaying) {
 		resetDrumMachine();
+		}
 	}
 
 	function handleSample0ButtonClick() {
