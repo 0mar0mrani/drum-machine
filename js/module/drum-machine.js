@@ -13,6 +13,7 @@ export default function DrumMachine() {
 	// QuerrySelectors
 	const playButton = document.querySelector('.drum-machine__play-button');
 	const sequencerSteps = document.querySelectorAll('.drum-machine__sequencer-step');
+	const sample0 = document.querySelector('.drum-machine__sequencer-sample');
 
 	// Eventlisteners
 	playButton.addEventListener('click', handlePlayButtonClick);
@@ -42,14 +43,18 @@ export default function DrumMachine() {
 			toggleSequence(); 
 		}
 	}
-
+ 
 	//Functions
 	function toggleIsPlaying () {
 		isPlaying = !isPlaying;
 	}
 
-	const triggerButton = document.querySelector('.drum-machine__trigger-button');
-	triggerButton.addEventListener('click', handleTriggerButtonClick);
+	sample0.addEventListener('click', handleSample0Click);
+
+	function handleSample0Click() {
+		audioContext.resume();
+		queueSample(samples[0], audioContext.currentTime)
+	}
 	
 	const samplePaths = ['/assets/audio/kick.wav']
 	let samples;
@@ -122,7 +127,6 @@ export default function DrumMachine() {
 		if (isPlaying) {
 			audioContext.resume();
 			scheduler();
-			// togglePlayHead('start');
 
 		} else {
 			audioContext.suspend();

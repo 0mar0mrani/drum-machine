@@ -9,6 +9,14 @@
 	padding: 1rem;
 }
 
+.drum-machine__sequencer-sample {
+	font-size: 3rem;
+	padding: 0 1rem;
+	border: solid 1px;
+	cursor: pointer;
+	margin-right: 2rem;
+}
+
 .drum-machine__sequencer-step {
 	width: 4rem;
 	height: 4rem;
