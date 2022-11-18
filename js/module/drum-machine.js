@@ -130,6 +130,7 @@ export default function DrumMachine() {
 
 		} else {
 			audioContext.suspend();
+			clearInterval(timerID);
 			resetDrumMachine();
 		}
 	}
