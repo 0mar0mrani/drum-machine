@@ -1,6 +1,5 @@
 export default function DrumMachine() {
 	// Data
-
 	const bpm = 120;
 	const bpmInMilliseconds = (60 / bpm) * 1000;
 	const sixteenthNoteInMilliseconds = bpmInMilliseconds / 4;
@@ -37,7 +36,11 @@ export default function DrumMachine() {
 	// Handlers
 	function handleSequencerStepsClick(event, index) {
 		pattern[index] = !pattern[index];
-		scheduleSample(samples[0]);
+
+		if (!isPlaying) {
+			scheduleSample(samples[0]);
+		}
+
 		renderHTML()
 	}
 	
