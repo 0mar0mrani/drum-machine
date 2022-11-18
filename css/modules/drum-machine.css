@@ -5,7 +5,6 @@
 
 .drum-machine__sequencer-steps {
 	display: flex;
-	justify-content: space-between;
 	padding: 1rem;
 }
 
@@ -20,13 +19,13 @@
 .drum-machine__sequencer-step {
 	width: 4rem;
 	height: 4rem;
-}
-
-.drum-machine__sequencer-play-head {
-	transform: scale(1.2);
-	accent-color: purple;
+	border: solid 1px;
 }
 
 .drum-machine__step--active {
 	background-color: blue;
+}
+
+.drum-machine__sequencer-play-head {
+	background-color: gray;
 }
