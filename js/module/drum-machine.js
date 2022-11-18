@@ -3,7 +3,7 @@ export default function DrumMachine() {
 
 	const bpm = 120;
 	const bpmInMilliseconds = (60 / bpm) * 1000;
-	const sixteenthNoteInMilliseconds = bpmInMilliseconds / 4
+	const sixteenthNoteInMilliseconds = bpmInMilliseconds / 4;
 
 	const pattern = [true, false, false, false, true, false, false, false, true, false, false, false, true, false, false, false,];
 	let currentPatternIndex = 0;
@@ -17,8 +17,7 @@ export default function DrumMachine() {
 
 	const lookahead = 25.0; 
 	const scheduleAheadTime = 0.1; 
-	let nextTriggerTime = 0 // seconds
-
+	let nextTriggerTime = 0 
 
 	// QuerrySelectors
 	const playButton = document.querySelector('.drum-machine__play-button');
@@ -38,7 +37,7 @@ export default function DrumMachine() {
 	// Handlers
 	function handleSequencerStepsClick(event, index) {
 		pattern[index] = !pattern[index];
-		renderSequence()
+		renderHTML()
 	}
 	
 	function handlePlayButtonClick() {
@@ -46,7 +45,7 @@ export default function DrumMachine() {
 		toggleSequence();
 
 		if (!isPlaying) {
-		resetDrumMachine();
+			resetDrumMachine();
 		}
 	}
 
@@ -147,6 +146,10 @@ export default function DrumMachine() {
 		currentPatternIndex = 0;
 	}
 
+	function renderHTML() {
+		renderSequence();
+	}
+
 	function renderSequence() {
 		for (let index = 0; index < pattern.length; index += 1) {
 			if (pattern[index]) {
@@ -159,5 +162,5 @@ export default function DrumMachine() {
 
 	// Called methods
 	loadAudioIntoBuffer();
-	renderSequence();
+	renderHTML();
 }
