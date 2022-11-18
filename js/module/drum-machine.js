@@ -43,10 +43,6 @@ export default function DrumMachine() {
 		}
 	}
 
-	function handleResetButtonClick() {
-		removeFullPattern();
-	}
- 
 	//Functions
 	function toggleIsPlaying () {
 		isPlaying = !isPlaying;
@@ -83,13 +79,7 @@ export default function DrumMachine() {
 		
 		setupSamples(samplePaths).then((response) => {
 			samples = response;
-			console.log(samples);
 		})
-	}
-
-	function handleTriggerButtonClick() {
-		queueSample(samples[0], audioContext.currentTime);
-		console.log(audioContext.currentTime);
 	}
 
 	function queueSample(audioBuffer, time) {
@@ -137,17 +127,6 @@ export default function DrumMachine() {
 		} else {
 			audioContext.suspend();
 			resetDrumMachine();
-			// togglePlayHead('stop');
-		}
-	}
-
-	function togglePlayHead(command) {
-		if (command === 'start' ) {
-			sampleInterval = setInterval(function() {
-				toggleActiveClass();
-			}, sixteenthNoteInMilliseconds) 
-		} else if (command === 'stop') {
-			clearInterval(sampleInterval);
 		}
 	}
 
@@ -181,13 +160,6 @@ export default function DrumMachine() {
 		}
 
 		currentPatternIndex = 0;
-	} 
-
-	function removeFullPattern() {
-		for (let index = 0; index < sequencerSteps.length; index += 1) {
-			pattern[index] = false;
-			sequencerSteps[index].checked = false;
-		}
 	}
 
 	function renderSequence() {
