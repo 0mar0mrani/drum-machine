@@ -37,13 +37,14 @@ export default function DrumMachine() {
 	// Handlers
 	function handleSequencerStepsClick(event, index) {
 		pattern[index] = !pattern[index];
+		scheduleSample(samples[0]);
 		renderHTML()
 	}
 	
 	function handlePlayButtonClick() {
 		toggleIsPlaying();
 		toggleSequence();
-
+		
 		if (!isPlaying) {
 			resetDrumMachine();
 		}
@@ -51,7 +52,7 @@ export default function DrumMachine() {
 
 	function handleSample0ButtonClick() {
 		audioContext.resume();
-		scheduleSample(samples[0], audioContext.currentTime)
+		scheduleSample(samples[0])
 	}
  
 	//Methods
@@ -82,7 +83,7 @@ export default function DrumMachine() {
 		const sampleSource = audioContext.createBufferSource();
 		sampleSource.buffer = audioBuffer;
 		sampleSource.connect(audioContext.destination);
-		sampleSource.start(time)
+		sampleSource.start(time);
 	}
 
 	function toggleIsPlaying () {
