@@ -29,6 +29,7 @@ export default function DrumMachine() {
 
 	// QuerrySelectors
 	const playButton = document.querySelector('.drum-machine__play-button');
+	const playButtonIcon = document.querySelector('.drum-machine__play-button-icon');
 
 	// Eventlisteners
 	playButton.addEventListener('click', handlePlayButtonClick);
@@ -36,11 +37,11 @@ export default function DrumMachine() {
 	// Handlers	
 	function handlePlayButtonClick() {
 		toggleIsPlaying();
-		toggleSequence();
-		
+		toggleSequence();	
 		if (!isPlaying) {
 			resetDrumMachine();
 		}
+		renderHtml();
 	}
 
  
@@ -104,6 +105,18 @@ export default function DrumMachine() {
 		}
 		
 		currentPatternIndex = 0;
+	}
+
+	function renderHtml() {
+		renderPlayPauseIcon();
+	}
+
+	function renderPlayPauseIcon() {
+		if (isPlaying) {
+			playButtonIcon.src = "/assets/svg/pause.svg";
+		} else {
+			playButtonIcon.src = '/assets/svg/play.svg';
+		}
 	}
 
 	// Called methods
