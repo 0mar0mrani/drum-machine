@@ -1,15 +1,24 @@
+import Sequencer from "./sequencer.js";
+
 export default function DrumMachine() {
+	let sequencerModules = []
+
+	const allSequences = document.querySelectorAll('.drum-machine__sequencer');
+
+	for (let index = 0; index < allSequences.length; index += 1) {
+		sequencerModules.push(Sequencer(allSequences[index], index));
+	}
+
 	// Data
 	const bpm = 120;
 	const bpmInMilliseconds = (60 / bpm) * 1000;
 	const sixteenthNoteInMilliseconds = bpmInMilliseconds / 4;
 
-	const pattern = [true, false, false, false, true, false, false, false, true, false, false, false, true, false, false, false,];
-	let currentPatternIndex = 0;
 	let isPlaying = false; 
+	let currentPatternIndex = 0;
 
-	const samplePaths = ['/assets/audio/kick.wav']
-	let samples;
+	const samplePaths = ['/assets/audio/hihat.wav', '/assets/audio/perc.wav', '/assets/audio/snare.wav', '/assets/audio/kick.wav']
+
 	let timerID;
 	let triggerID;
 	const audioContext = new AudioContext();
@@ -20,30 +29,11 @@ export default function DrumMachine() {
 
 	// QuerrySelectors
 	const playButton = document.querySelector('.drum-machine__play-button');
-	const sequencerSteps = document.querySelectorAll('.drum-machine__sequencer-step');
-	const sample0Button = document.querySelector('.drum-machine__sequencer-sample');
 
 	// Eventlisteners
 	playButton.addEventListener('click', handlePlayButtonClick);
-	sample0Button.addEventListener('click', handleSample0ButtonClick);
 
-	for (let index = 0; index < sequencerSteps.length; index += 1) {
-		sequencerSteps[index].addEventListener('click', () => {
-			handleSequencerStepsClick(event, index);
-		})
-	}
-
-	// Handlers
-	function handleSequencerStepsClick(event, index) {
-		pattern[index] = !pattern[index];
-
-		if (!isPlaying) {
-			scheduleSample(samples[0]);
-		}
-
-		renderHTML()
-	}
-	
+	// Handlers	
 	function handlePlayButtonClick() {
 		toggleIsPlaying();
 		toggleSequence();
@@ -53,44 +43,14 @@ export default function DrumMachine() {
 		}
 	}
 
-	function handleSample0ButtonClick() {
-		audioContext.resume();
-		scheduleSample(samples[0])
-	}
  
 	//Methods
-	function loadAudioIntoBuffer() {		
-		setupSamples(samplePaths).then((response) => {
-			samples = response;
-		})
-	}
-
-	async function getFile(filePath) {
-		const response = await fetch(filePath);
-		const arrayBuffer = await response.arrayBuffer();
-		const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-		return audioBuffer;
-	} 
-
-	async function setupSamples(paths) {
-		const audioBuffers = [];
-
-		for (const path of paths) {
-			const sample = await getFile(path)
-			audioBuffers.push(sample)
-		}
-		return audioBuffers;
-	}
-
-	function scheduleSample(audioBuffer, time) {
-		const sampleSource = audioContext.createBufferSource();
-		sampleSource.buffer = audioBuffer;
-		sampleSource.connect(audioContext.destination);
-		sampleSource.start(time);
-	}
-
 	function toggleIsPlaying () {
 		isPlaying = !isPlaying;
+
+		for (const sequencerModule of sequencerModules) {
+			sequencerModule.toggleIsPlaying();
+		}
 	}
 
 	function scheduler() {	
@@ -99,11 +59,13 @@ export default function DrumMachine() {
 		}
 
 		while (nextTriggerTime < audioContext.currentTime + scheduleAheadTime) {
-			if (pattern[currentPatternIndex]) {
-				scheduleSample(samples[0], nextTriggerTime);
+			for (const sequencerModule of sequencerModules) {
+				if (sequencerModule.pattern[currentPatternIndex]) {
+					sequencerModule.scheduleSample(audioContext, nextTriggerTime);
+				}
 			}
-
-			triggerID = setTimeout(scheduleToggleActiveClass, scheduleAheadTime);
+			
+			triggerID = setTimeout(scheduleToggleActiveClass(currentPatternIndex), scheduleAheadTime);
 			nextTriggerTime += (sixteenthNoteInMilliseconds / 1000); 
 			setNextPatternIndex();
 		}
@@ -111,8 +73,10 @@ export default function DrumMachine() {
 		timerID = setTimeout(scheduler, lookahead);
 	}
 
-	function scheduleToggleActiveClass() {
-		toggleActiveClass();
+	function scheduleToggleActiveClass(currentPatternIndex) {
+		for (const sequencerModule of sequencerModules) {
+			sequencerModule.toggleActiveClass(currentPatternIndex);
+		}
 	}
 
 	function toggleSequence() {
@@ -126,14 +90,6 @@ export default function DrumMachine() {
 		}
 	}
 
-	function toggleActiveClass() {
-		for (const step of sequencerSteps) {
-			step.classList.remove('drum-machine__sequencer-play-head');
-		}
-
-		sequencerSteps[currentPatternIndex].classList.add('drum-machine__sequencer-play-head');
-	}
-
 	function setNextPatternIndex() {
 		if (currentPatternIndex === 15) {
 			currentPatternIndex = 0;
@@ -143,28 +99,15 @@ export default function DrumMachine() {
 	}
 	
 	function resetDrumMachine() {
-		for (const step of sequencerSteps) {
-			step.classList.remove('drum-machine__sequencer-play-head');
+		for (const sequencerModule of sequencerModules) {
+			sequencerModule.removeActiveClass();
 		}
-
+		
 		currentPatternIndex = 0;
 	}
 
-	function renderHTML() {
-		renderSequence();
-	}
-
-	function renderSequence() {
-		for (let index = 0; index < pattern.length; index += 1) {
-			if (pattern[index]) {
-				sequencerSteps[index].classList.add('drum-machine__step--active')
-			} else {
-				sequencerSteps[index].classList.remove('drum-machine__step--active')
-			}
-		}
-	}
-
 	// Called methods
-	loadAudioIntoBuffer();
-	renderHTML();
+	for (const sequencerModule of sequencerModules) {
+		sequencerModule.loadAudioIntoBuffer(audioContext, samplePaths);
+	}
 }
