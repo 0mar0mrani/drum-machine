@@ -1,6 +1,12 @@
-.drum-machine__play-button,
-.drum-machine__reset-button {
+.drum-machine__play-button{
 	font-size: 4rem;
+	border: solid 0.5px;
+	padding: 2rem;
+	margin-bottom: 1rem;
+}
+
+.drum-machine__sequencer {
+	display: flex;
 }
 
 .drum-machine__sequencer-steps {
@@ -11,15 +17,16 @@
 .drum-machine__sequencer-sample {
 	font-size: 3rem;
 	padding: 0 1rem;
-	border: solid 1px;
+	border: solid 0.5px;
 	cursor: pointer;
 	margin-right: 2rem;
+	width: 10rem;
 }
 
 .drum-machine__sequencer-step {
 	width: 4rem;
 	height: 4rem;
-	border: solid 1px;
+	border: solid 0.5px;
 }
 
 .drum-machine__step--active {
