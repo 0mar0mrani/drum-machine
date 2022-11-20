@@ -142,6 +142,13 @@ export default function DrumMachine() {
 		bpm = tempoSlider.value;
 		calculateSixteenthNote();
 	}
+
+	function changeToBpm(newBpm) {
+		bpm = newBpm;
+		calculateSixteenthNote();
+		tempoSlider.value = bpm;
+		tempoDisplay.innerText = bpm;
+	}
 	
 	function resetDrumMachine() {
 		for (const sequencerModule of sequencerModules) {
