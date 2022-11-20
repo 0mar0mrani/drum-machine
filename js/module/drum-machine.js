@@ -16,6 +16,7 @@ export default function DrumMachine() {
 	const HouseSamples = ['/assets/audio/house/hihat.mp3', '/assets/audio/house/perc.mp3', '/assets/audio/house/snare.mp3', '/assets/audio/house/kick.mp3'];
 	const hiphopSamples = ['/assets/audio/hiphop/hihat.mp3', '/assets/audio/hiphop/perc.mp3', '/assets/audio/hiphop/snare.mp3', '/assets/audio/hiphop/kick.mp3'];
 	const acousticSamples = ['/assets/audio/acoustic/hihat.mp3', '/assets/audio/acoustic/perc.mp3', '/assets/audio/acoustic/snare.mp3', '/assets/audio/acoustic/kick.mp3'];
+	let samplePaths = HouseSamples;
 
 	const housePattern = [
 		[false, false, true, false, false, false, true, false, false, false, true, false, false, false, true, false], // Hihat
@@ -38,17 +39,6 @@ export default function DrumMachine() {
 		[true, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false], // Kick
 	]
 
-	function applyPattern(pattern) {
-		for (let index = 0; index < housePattern.length; index += 1) {
-			const sequencerModule = sequencerModules[index];
-			sequencerModule.changePattern(pattern[index]); 
-			sequencerModule.renderHtml();
-		}
-	}
-
-	let samplePaths = HouseSamples;
-
-
 	let timerID;
 	let triggerID;
 	const audioContext = new AudioContext();
@@ -62,13 +52,31 @@ export default function DrumMachine() {
 	const playButtonIcon = document.querySelector('.drum-machine__play-button-icon');
 	const tempoSlider = document.querySelector('.drum-machine__tempo-slider');
 	const tempoDisplay = document.querySelector('.drum-machine__tempo-display');
-
-
 	const selectSamples = document.querySelector('.drum-machine__select-samples');
-	selectSamples.addEventListener('change', handleSelectSamplesChange);
-
 	const selectPattern = document.querySelector('.drum-machine__select-pattern');
+
+
+	// Eventlisteners
+	playButton.addEventListener('click', handlePlayButtonClick);
+	tempoSlider.addEventListener('input', handleTempoSliderChange);
+	selectSamples.addEventListener('change', handleSelectSamplesChange);
 	selectPattern.addEventListener('change', handleSelectPatternChange);
+
+
+	// Handlers	
+	function handlePlayButtonClick() {
+		toggleIsPlaying();
+		toggleSequence();	
+		if (!isPlaying) {
+			resetDrumMachine();
+		}
+		renderHtml();
+	}
+
+	function handleTempoSliderChange() {
+		changeBpm();
+		renderHtml();
+	}
 
 	function handleSelectPatternChange() {
 		let newPattern;
@@ -89,52 +97,14 @@ export default function DrumMachine() {
 				break
 		}
 
-		changeToBpm(newBpm);
-		applyPattern(newPattern);
-		changeSamples(selectPattern.value);
+		changeBpm(newBpm);
+		applyNewDrumPattern(newPattern);
+		loadNewSamplesToBuffer(selectPattern.value);
+		renderHtml();
 	}
 
 	function handleSelectSamplesChange() {
-		changeSamples(selectSamples.value);
-	}
-
-	function changeSamples(genre) {
-		switch(genre) {
-			case 'house':
-				samplePaths = HouseSamples;
-				break
-			case 'hiphop':
-				samplePaths = hiphopSamples;
-				break
-			case 'acoustic':
-				samplePaths = acousticSamples;
-				break
-		}
-
-		for (const sequencerModule of sequencerModules) {
-			sequencerModule.loadAudioIntoBuffer(audioContext, samplePaths);
-		}
-
-		selectSamples.value = genre;
-	}
-
-	// Eventlisteners
-	playButton.addEventListener('click', handlePlayButtonClick);
-	tempoSlider.addEventListener('input', handleTempoSliderChange);
-
-	// Handlers	
-	function handlePlayButtonClick() {
-		toggleIsPlaying();
-		toggleSequence();	
-		if (!isPlaying) {
-			resetDrumMachine();
-		}
-		renderHtml();
-	}
-
-	function handleTempoSliderChange() {
-		updateBpm();
-		renderHtml();
+		loadNewSamplesToBuffer(selectSamples.value);
 	}
  
 	//Methods
@@ -196,18 +166,15 @@ export default function DrumMachine() {
 		}
 	}
 
-	function updateBpm() {
-		bpm = tempoSlider.value;
+	function changeBpm(newBpm) {
+		if (newBpm) {
+			bpm = newBpm;
+		} else {
+			bpm = tempoSlider.value;
+		}
 		calculateSixteenthNote();
 	}
 
-	function changeToBpm(newBpm) {
-		bpm = newBpm;
-		calculateSixteenthNote();
-		tempoSlider.value = bpm;
-		tempoDisplay.innerText = bpm;
-	}
-	
 	function resetDrumMachine() {
 		for (const sequencerModule of sequencerModules) {
 			sequencerModule.removeActiveClass();
@@ -216,13 +183,41 @@ export default function DrumMachine() {
 		currentPatternIndex = 0;
 	}
 
+	function applyNewDrumPattern(pattern) {
+		for (let index = 0; index < housePattern.length; index += 1) {
+			const sequencerModule = sequencerModules[index];
+			sequencerModule.changePattern(pattern[index]); 
+			sequencerModule.renderHtml();
+		}
+	}
+
+	function loadNewSamplesToBuffer(genre) {
+		switch(genre) {
+			case 'house':
+				samplePaths = HouseSamples;
+				break
+			case 'hiphop':
+				samplePaths = hiphopSamples;
+				break
+			case 'acoustic':
+				samplePaths = acousticSamples;
+				break
+		}
+
+		for (const sequencerModule of sequencerModules) {
+			sequencerModule.loadAudioIntoBuffer(audioContext, samplePaths);
+		}
+
+		selectSamples.value = genre;
+	}
+
 	function renderHtml() {
 		renderPlayPauseIcon();
 		renderBpm();
 	}
 
 	function renderBpm() {
-		const bpm = tempoSlider.value;
+		tempoSlider.value = bpm;
 		tempoDisplay.innerText = bpm;
 	}
 
@@ -241,5 +236,5 @@ export default function DrumMachine() {
 
 	renderHtml();
 	calculateSixteenthNote();
-	applyPattern(housePattern);
+	applyNewDrumPattern(housePattern);
 }
