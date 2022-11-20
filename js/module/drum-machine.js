@@ -1,10 +1,8 @@
 import Sequencer from "./sequencer.js";
 
 export default function DrumMachine() {
-	let sequencerModules = []
-
+	const sequencerModules = []
 	const allSequences = document.querySelectorAll('.drum-machine__sequencer');
-
 	for (let index = 0; index < allSequences.length; index += 1) {
 		sequencerModules.push(Sequencer(allSequences[index], index));
 	}
@@ -15,7 +13,12 @@ export default function DrumMachine() {
 	let isPlaying = false; 
 	let currentPatternIndex = 0;
 
-	const samplePaths = ['/assets/audio/hihat.wav', '/assets/audio/perc.wav', '/assets/audio/snare.wav', '/assets/audio/kick.wav']
+	const HouseSamples = ['/assets/audio/house/hihat.mp3', '/assets/audio/house/perc.mp3', '/assets/audio/house/snare.mp3', '/assets/audio/house/kick.mp3'];
+	const hiphopSamples = ['/assets/audio/hiphop/hihat.mp3', '/assets/audio/hiphop/perc.mp3', '/assets/audio/hiphop/snare.mp3', '/assets/audio/hiphop/kick.mp3'];
+	const acousticSamples = ['/assets/audio/acoustic/hihat.mp3', '/assets/audio/acoustic/perc.mp3', '/assets/audio/acoustic/snare.mp3', '/assets/audio/acoustic/kick.mp3'];
+
+	let samplePaths = HouseSamples;
+
 
 	let timerID;
 	let triggerID;
@@ -31,6 +34,32 @@ export default function DrumMachine() {
 	const tempoSlider = document.querySelector('.drum-machine__tempo-slider');
 	const tempoDisplay = document.querySelector('.drum-machine__tempo-display');
 
+
+	const selectSamples = document.querySelector('.drum-machine__select-samples');
+	selectSamples.addEventListener('change', handleSelectSamplesChange);
+	function handleSelectSamplesChange() {
+		changeSamples(selectSamples.value);
+	}
+
+	function changeSamples(genre) {
+		switch(genre) {
+			case 'house':
+				samplePaths = HouseSamples;
+				break
+			case 'hiphop':
+				samplePaths = hiphopSamples;
+				break
+			case 'acoustic':
+				samplePaths = acousticSamples;
+				break
+		}
+
+		for (const sequencerModule of sequencerModules) {
+			sequencerModule.loadAudioIntoBuffer(audioContext, samplePaths);
+		}
+
+		selectSamples.value = genre;
+	}
 	// Eventlisteners
 	playButton.addEventListener('click', handlePlayButtonClick);
 	tempoSlider.addEventListener('input', handleTempoSliderChange);
