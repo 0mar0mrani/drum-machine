@@ -9,6 +9,7 @@
 	display: flex;
 	align-items: center;
 	justify-content:space-between;
+	gap: 1rem;
 }
 
 .drum-machine__play-button {
@@ -26,6 +27,14 @@
 
 .drum-machine__tempo-slider {
 	width: 80%;
+}
+
+.drum-machine__tempo-extreme-button {
+	font-size: 2rem;
+}
+
+.drum-machine__tempo-extreme-button--active {
+	background-color: red;
 }
 
 .drum-machine__tempo-display {

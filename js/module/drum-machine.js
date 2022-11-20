@@ -11,6 +11,7 @@ export default function DrumMachine() {
 	let bpm = 120;
 	let sixteenthNoteInMilliseconds;
 	let isPlaying = false; 
+	let isExtremeTempo = false;
 	let currentPatternIndex = 0;
 
 	const HouseSamples = ['/assets/audio/house/hihat.mp3', '/assets/audio/house/perc.mp3', '/assets/audio/house/snare.mp3', '/assets/audio/house/kick.mp3'];
@@ -54,14 +55,14 @@ export default function DrumMachine() {
 	const tempoDisplay = document.querySelector('.drum-machine__tempo-display');
 	const selectSamples = document.querySelector('.drum-machine__select-samples');
 	const selectPattern = document.querySelector('.drum-machine__select-pattern');
-
+	const extremeButton = document.querySelector('.drum-machine__tempo-extreme-button')
 
 	// Eventlisteners
 	playButton.addEventListener('click', handlePlayButtonClick);
 	tempoSlider.addEventListener('input', handleTempoSliderChange);
 	selectSamples.addEventListener('change', handleSelectSamplesChange);
 	selectPattern.addEventListener('change', handleSelectPatternChange);
-
+	extremeButton.addEventListener('click', handleExtremeButtonClick);
 
 	// Handlers	
 	function handlePlayButtonClick() {
@@ -105,6 +106,12 @@ export default function DrumMachine() {
 
 	function handleSelectSamplesChange() {
 		loadNewSamplesToBuffer(selectSamples.value);
+	}
+
+	function handleExtremeButtonClick() {
+		isExtremeTempo = !isExtremeTempo;
+		toggleExtremeTempo();
+		renderExtremeButton();
 	}
  
 	//Methods
@@ -211,6 +218,14 @@ export default function DrumMachine() {
 		selectSamples.value = genre;
 	}
 
+	function toggleExtremeTempo() {
+		if (isExtremeTempo) {
+			tempoSlider.setAttribute('max', 10000);
+		} else {
+			tempoSlider.setAttribute('max', 200);
+		}
+	}
+
 	function renderHtml() {
 		renderPlayPauseIcon();
 		renderBpm();
@@ -226,6 +241,14 @@ export default function DrumMachine() {
 			playButtonIcon.src = "/assets/svg/pause.svg";
 		} else {
 			playButtonIcon.src = '/assets/svg/play.svg';
+		}
+	}
+
+	function renderExtremeButton() {
+		if (isExtremeTempo) {
+			extremeButton.classList.add('drum-machine__tempo-extreme-button--active');
+		} else {
+			extremeButton.classList.remove('drum-machine__tempo-extreme-button--active');
 		}
 	}
 
