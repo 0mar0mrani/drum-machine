@@ -94,7 +94,12 @@ export default function DrumMachine() {
 	function handleExtremeButtonClick() {
 		isExtremeTempo = !isExtremeTempo;
 		toggleExtremeTempo();
-		renderExtremeButton();
+
+		if (!isExtremeTempo) {
+			changeBpm(120);
+		}
+		
+		renderHtml();
 	}
  
 	//Methods
