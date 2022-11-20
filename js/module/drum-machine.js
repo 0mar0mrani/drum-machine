@@ -98,7 +98,7 @@ export default function DrumMachine() {
 		if (!isExtremeTempo) {
 			changeBpm(120);
 		}
-		
+
 		renderHtml();
 	}
  
@@ -214,9 +214,11 @@ export default function DrumMachine() {
 		}
 	}
 
+	// All View Renders
 	function renderHtml() {
 		renderPlayPauseIcon();
 		renderBpm();
+		renderExtremeButton();
 	}
 
 	function renderBpm() {
