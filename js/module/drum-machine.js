@@ -107,7 +107,7 @@ export default function DrumMachine() {
 			
 			triggerID = setTimeout(scheduleToggleActiveClass(currentPatternIndex), scheduleAheadTime);
 			nextTriggerTime += (sixteenthNoteInMilliseconds / 1000); 
-			setNextPatternIndex();
+			setNextCurrentPatternIndex();
 		}
 
 		timerID = setTimeout(scheduler, lookahead);
@@ -130,7 +130,7 @@ export default function DrumMachine() {
 		}
 	}
 
-	function setNextPatternIndex() {
+	function setNextCurrentPatternIndex() {
 		if (currentPatternIndex === 15) {
 			currentPatternIndex = 0;
 		} else {
