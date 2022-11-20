@@ -10,10 +10,8 @@ export default function DrumMachine() {
 	}
 
 	// Data
-	const bpm = 120;
-	const bpmInMilliseconds = (60 / bpm) * 1000;
-	const sixteenthNoteInMilliseconds = bpmInMilliseconds / 4;
-
+	let bpm = 120;
+	let sixteenthNoteInMilliseconds;
 	let isPlaying = false; 
 	let currentPatternIndex = 0;
 
@@ -30,9 +28,12 @@ export default function DrumMachine() {
 	// QuerrySelectors
 	const playButton = document.querySelector('.drum-machine__play-button');
 	const playButtonIcon = document.querySelector('.drum-machine__play-button-icon');
+	const tempoSlider = document.querySelector('.drum-machine__tempo-slider');
+	const tempoDisplay = document.querySelector('.drum-machine__tempo-display');
 
 	// Eventlisteners
 	playButton.addEventListener('click', handlePlayButtonClick);
+	tempoSlider.addEventListener('input', handleTempoSliderChange);
 
 	// Handlers	
 	function handlePlayButtonClick() {
@@ -44,6 +45,10 @@ export default function DrumMachine() {
 		renderHtml();
 	}
 
+	function handleTempoSliderChange() {
+		updateBpm();
+		renderHtml();
+	}
  
 	//Methods
 	function toggleIsPlaying () {
@@ -52,6 +57,11 @@ export default function DrumMachine() {
 		for (const sequencerModule of sequencerModules) {
 			sequencerModule.toggleIsPlaying();
 		}
+	}
+
+	function calculateSixteenthNote() {
+		const bpmInMilliseconds = (60 / bpm) * 1000;
+		sixteenthNoteInMilliseconds = bpmInMilliseconds / 4;
 	}
 
 	function scheduler() {	
@@ -98,6 +108,11 @@ export default function DrumMachine() {
 			currentPatternIndex += 1;
 		}
 	}
+
+	function updateBpm() {
+		bpm = tempoSlider.value;
+		calculateSixteenthNote();
+	}
 	
 	function resetDrumMachine() {
 		for (const sequencerModule of sequencerModules) {
@@ -109,6 +124,12 @@ export default function DrumMachine() {
 
 	function renderHtml() {
 		renderPlayPauseIcon();
+		renderBpm();
+	}
+
+	function renderBpm() {
+		const bpm = tempoSlider.value;
+		tempoDisplay.innerText = bpm;
 	}
 
 	function renderPlayPauseIcon() {
@@ -123,4 +144,6 @@ export default function DrumMachine() {
 	for (const sequencerModule of sequencerModules) {
 		sequencerModule.loadAudioIntoBuffer(audioContext, samplePaths);
 	}
+	renderHtml();
+	calculateSixteenthNote();
 }
