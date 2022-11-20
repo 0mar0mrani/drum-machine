@@ -28,7 +28,7 @@ export default function Sequencer(sequencerNode, index) {
 			// scheduleSample(audioContext);
 		}
 
-		renderHTML()
+		renderHtml()
 	}
 
 	function toggleIsPlaying() {
@@ -76,7 +76,13 @@ export default function Sequencer(sequencerNode, index) {
 		sampleSource.start(time);
 	}
 
-	function renderHTML() {
+	function changePattern(newPattern) {
+		for (let index = 0; index < pattern.length; index += 1) {
+			pattern[index] = newPattern[index];
+		}
+	}
+
+	function renderHtml() {
 		renderSequence();
 	}
 
@@ -90,7 +96,7 @@ export default function Sequencer(sequencerNode, index) {
 		}
 	}
 
-	renderHTML();
+	renderHtml();
 
 	return {
 		loadAudioIntoBuffer,
@@ -98,6 +104,8 @@ export default function Sequencer(sequencerNode, index) {
 		pattern,
 		toggleActiveClass,
 		removeActiveClass,
-		toggleIsPlaying
+		toggleIsPlaying,
+		renderHtml,
+		changePattern,
 	}
 }
