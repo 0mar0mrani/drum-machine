@@ -17,6 +17,35 @@ export default function DrumMachine() {
 	const hiphopSamples = ['/assets/audio/hiphop/hihat.mp3', '/assets/audio/hiphop/perc.mp3', '/assets/audio/hiphop/snare.mp3', '/assets/audio/hiphop/kick.mp3'];
 	const acousticSamples = ['/assets/audio/acoustic/hihat.mp3', '/assets/audio/acoustic/perc.mp3', '/assets/audio/acoustic/snare.mp3', '/assets/audio/acoustic/kick.mp3'];
 
+	const housePattern = [
+		[false, false, true, false, false, false, true, false, false, false, true, false, false, false, true, false], // Hihat
+		[false, false, false, true, false, false, true, false, false, false, false, false, false, false, false, false], // Perc
+		[false, false, false, false, true, false, false, false, false, false, false, false, true, false, false, false], // Snare
+		[true, false, false, false, true, false, false, false, true, false, false, false, true, false, false, false], // Kick
+	]
+
+	const hiphopPattern = [
+		[true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false], // Hihat
+		[false, false, true, false, false, false, false, false, false, false, false, false, false, false, true, false], // Perc
+		[false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false], // Snare
+		[true, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false], // Kick
+	]
+
+	const acousticPattern = [
+		[true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false], // Hihat
+		[false, false, false, false, false, false, false, false, false, true, false, false, true, false, false, true], // Perc
+		[false, false, false, false, true, false, false, false, false, false, false, false, true, false, false, false], // Snare
+		[true, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false], // Kick
+	]
+
+	function applyPattern(pattern) {
+		for (let index = 0; index < housePattern.length; index += 1) {
+			const sequencerModule = sequencerModules[index];
+			sequencerModule.changePattern(pattern[index]); 
+			sequencerModule.renderHtml();
+		}
+	}
+
 	let samplePaths = HouseSamples;
 
 
@@ -37,6 +66,34 @@ export default function DrumMachine() {
 
 	const selectSamples = document.querySelector('.drum-machine__select-samples');
 	selectSamples.addEventListener('change', handleSelectSamplesChange);
+
+	const selectPattern = document.querySelector('.drum-machine__select-pattern');
+	selectPattern.addEventListener('change', handleSelectPatternChange);
+
+	function handleSelectPatternChange() {
+		let newPattern;
+		let newBpm
+
+		switch(selectPattern.value) {
+			case 'house':
+				newPattern = housePattern;
+				newBpm = 120;
+				break
+			case 'hiphop':
+				newPattern = hiphopPattern;
+				newBpm = 140;
+				break
+			case 'acoustic':
+				newPattern = acousticPattern;
+				newBpm = 110;
+				break
+		}
+
+		changeToBpm(newBpm);
+		applyPattern(newPattern);
+		changeSamples(selectPattern.value);
+	}
+
 	function handleSelectSamplesChange() {
 		changeSamples(selectSamples.value);
 	}
@@ -60,6 +117,7 @@ export default function DrumMachine() {
 
 		selectSamples.value = genre;
 	}
+
 	// Eventlisteners
 	playButton.addEventListener('click', handlePlayButtonClick);
 	tempoSlider.addEventListener('input', handleTempoSliderChange);
@@ -180,6 +238,8 @@ export default function DrumMachine() {
 	for (const sequencerModule of sequencerModules) {
 		sequencerModule.loadAudioIntoBuffer(audioContext, samplePaths);
 	}
+
 	renderHtml();
 	calculateSixteenthNote();
+	applyPattern(housePattern);
 }
