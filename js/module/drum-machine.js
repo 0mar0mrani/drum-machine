@@ -1,11 +1,15 @@
 import Sequencer from "./sequencer.js";
+import Patterns from "./patterns.js";
 
 export default function DrumMachine() {
+	// Get Data from import
 	const sequencerModules = []
+
 	const allSequences = document.querySelectorAll('.drum-machine__sequencer');
 	for (let index = 0; index < allSequences.length; index += 1) {
 		sequencerModules.push(Sequencer(allSequences[index], index));
 	}
+	const patterns = Patterns();
 
 	// Data
 	let bpm = 120;
@@ -18,27 +22,6 @@ export default function DrumMachine() {
 	const hiphopSamples = ['/assets/audio/hiphop/hihat.mp3', '/assets/audio/hiphop/perc.mp3', '/assets/audio/hiphop/snare.mp3', '/assets/audio/hiphop/kick.mp3'];
 	const acousticSamples = ['/assets/audio/acoustic/hihat.mp3', '/assets/audio/acoustic/perc.mp3', '/assets/audio/acoustic/snare.mp3', '/assets/audio/acoustic/kick.mp3'];
 	let samplePaths = HouseSamples;
-
-	const housePattern = [
-		[false, false, true, false, false, false, true, false, false, false, true, false, false, false, true, false], // Hihat
-		[false, false, false, true, false, false, true, false, false, false, false, false, false, false, false, false], // Perc
-		[false, false, false, false, true, false, false, false, false, false, false, false, true, false, false, false], // Snare
-		[true, false, false, false, true, false, false, false, true, false, false, false, true, false, false, false], // Kick
-	]
-
-	const hiphopPattern = [
-		[true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false], // Hihat
-		[false, false, true, false, false, false, false, false, false, false, false, false, false, false, true, false], // Perc
-		[false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false], // Snare
-		[true, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false], // Kick
-	]
-
-	const acousticPattern = [
-		[true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false], // Hihat
-		[false, false, false, false, false, false, false, false, false, true, false, false, true, false, false, true], // Perc
-		[false, false, false, false, true, false, false, false, false, false, false, false, true, false, false, false], // Snare
-		[true, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false], // Kick
-	]
 
 	let timerID;
 	let triggerID;
@@ -85,15 +68,15 @@ export default function DrumMachine() {
 
 		switch(selectPattern.value) {
 			case 'house':
-				newPattern = housePattern;
+				newPattern = patterns.housePattern;
 				newBpm = 120;
 				break
 			case 'hiphop':
-				newPattern = hiphopPattern;
+				newPattern = patterns.hiphopPattern;
 				newBpm = 140;
 				break
 			case 'acoustic':
-				newPattern = acousticPattern;
+				newPattern = patterns.acousticPattern;
 				newBpm = 110;
 				break
 		}
@@ -191,7 +174,7 @@ export default function DrumMachine() {
 	}
 
 	function applyNewDrumPattern(pattern) {
-		for (let index = 0; index < housePattern.length; index += 1) {
+		for (let index = 0; index < patterns.housePattern.length; index += 1) {
 			const sequencerModule = sequencerModules[index];
 			sequencerModule.changePattern(pattern[index]); 
 			sequencerModule.renderHtml();
@@ -259,5 +242,5 @@ export default function DrumMachine() {
 
 	renderHtml();
 	calculateSixteenthNote();
-	applyNewDrumPattern(housePattern);
+	applyNewDrumPattern(patterns.housePattern);
 }
