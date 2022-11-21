@@ -249,5 +249,5 @@ export default function DrumMachine() {
 
 	renderHtml();
 	calculateSixteenthNote();
-	applyNewDrumPattern(patterns.housePattern);
+	// applyNewDrumPattern(patterns.housePattern);
 }
