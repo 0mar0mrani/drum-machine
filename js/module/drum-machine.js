@@ -38,7 +38,7 @@ export default function DrumMachine() {
 	const tempoDisplay = document.querySelector('.drum-machine__tempo-display');
 	const selectSamples = document.querySelector('.drum-machine__select-samples');
 	const selectPattern = document.querySelector('.drum-machine__select-pattern');
-	const extremeButton = document.querySelector('.drum-machine__tempo-extreme-button')
+	const extremeButton = document.querySelector('.drum-machine__tempo-extreme-button');
 
 	// Eventlisteners
 	playButton.addEventListener('click', handlePlayButtonClick);

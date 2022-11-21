@@ -20,9 +20,18 @@ export default function Patterns() {
 		[true, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false], // Kick
 	]
 
+
+	const clearPattern = [
+		[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false], // Hihat
+		[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false], // Perc
+		[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false], // Snare
+		[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false], // Kick
+	]
+
 	return {
 		housePattern,
 		hiphopPattern,
 		acousticPattern,
+		clearPattern,
 	}
 }
