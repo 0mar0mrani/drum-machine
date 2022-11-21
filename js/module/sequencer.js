@@ -6,9 +6,7 @@ export default function Sequencer(sequencerNode, index) {
 	const pattern = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,];
 
 	const sequencerSteps = sequencerNode.querySelectorAll('.drum-machine__sequencer-step');
-	const sample0Button = sequencerNode.querySelector('.drum-machine__sequencer-sample');
 
-	sample0Button.addEventListener('click', handleSample0ButtonClick);
 	for (let index = 0; index < sequencerSteps.length; index += 1) {
 		sequencerSteps[index].addEventListener('click', () => {
 			handleSequencerStepsClick(event, index);
@@ -23,21 +21,11 @@ export default function Sequencer(sequencerNode, index) {
 
 	function handleSequencerStepsClick(event, index) {
 		pattern[index] = !pattern[index];
-
-		if (!isPlaying) {
-			// scheduleSample(audioContext);
-		}
-
 		renderHtml()
 	}
 
 	function toggleIsPlaying() {
 		isPlaying = !isPlaying;
-	}
-
-	function handleSample0ButtonClick() {
-		// audioContext.resume();
-		// scheduleSample(audioContext)
 	}
 
 	function toggleActiveClass(currentPatternIndex) {
