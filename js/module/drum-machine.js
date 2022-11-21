@@ -118,6 +118,7 @@ export default function DrumMachine() {
 
 		if (!isExtremeTempo) {
 			changeBpm(120);
+			setDivision();
 		}
 
 		renderHtml();
