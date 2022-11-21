@@ -74,6 +74,7 @@ export default function DrumMachine() {
 
 	function handleTempoSliderChange() {
 		changeBpm();
+		setDivision();
 		renderHtml();
 	}
 
@@ -97,6 +98,7 @@ export default function DrumMachine() {
 		}
 
 		changeBpm(newBpm);
+		setDivision();
 		applyNewDrumPattern(newPattern);
 		loadNewSamplesToBuffer(selectPattern.value);
 		renderHtml();
@@ -107,19 +109,7 @@ export default function DrumMachine() {
 	}
 
 	function handleSelectDivisionChange() {
-		switch(selectDivision.value) {
-			case '4':
-				currentDivision = quarterNoteInMilliseconds;
-				break
-			case '8':
-				currentDivision = eighthNoteInMilliseconds;
-				break
-			case '16':
-				currentDivision = sixteenthNoteInMilliseconds;
-				break
-		}
-
-		console.log('hei');
+		setDivision();
 	}
 
 	function handleExtremeButtonClick() {
@@ -153,8 +143,18 @@ export default function DrumMachine() {
 		sixteenthNoteInMilliseconds = quarterNoteInMilliseconds / 4;
 	}
 
-	function setDivision(division) {
-		currentDivision = sixteenthNoteInMilliseconds;
+	function setDivision() {
+		switch(selectDivision.value) {
+			case '4':
+				currentDivision = quarterNoteInMilliseconds;
+				break
+			case '8':
+				currentDivision = eighthNoteInMilliseconds;
+				break
+			case '16':
+				currentDivision = sixteenthNoteInMilliseconds;
+				break
+		}
 	}
 
 	function scheduler() {	
