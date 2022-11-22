@@ -38,6 +38,7 @@ export default function DrumMachine() {
 	// QuerrySelectors
 	const playButton = document.querySelector('.drum-machine__play-button');
 	const playButtonIcon = document.querySelector('.drum-machine__play-button-icon');
+	const clearPatternButton = document.querySelector('.drum-machine__clear-button');
 	const tempoSlider = document.querySelector('.drum-machine__tempo-slider');
 	const tempoDisplay = document.querySelector('.drum-machine__tempo-display');
 	const selectSamples = document.querySelector('.drum-machine__select-samples');
@@ -47,6 +48,7 @@ export default function DrumMachine() {
 
 	// Eventlisteners
 	playButton.addEventListener('click', handlePlayButtonClick);
+	clearPatternButton.addEventListener('click', handleClearPatternButton);
 	tempoSlider.addEventListener('input', handleTempoSliderChange);
 	selectSamples.addEventListener('change', handleSelectSamplesChange);
 	selectPattern.addEventListener('change', handleSelectPatternChange);
@@ -98,6 +100,10 @@ export default function DrumMachine() {
 		}
 
 		renderHtml();
+	}
+ 
+	function handleClearPatternButton() {
+		applyNewDrumPattern(patterns.clearPattern);
 	}
  
 	//Methods
