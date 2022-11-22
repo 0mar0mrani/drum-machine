@@ -1,9 +1,10 @@
 export default function Sequencer(sequencerNode, index) {
-	let samples;
-	let rightSampleIndex = index;
-	let isPlaying = false;
-	let timeSignature;
-
+	const sequencer = {
+		samples: null,
+		rightSampleIndex : index,
+		isPlaying : false,
+	   timeSignature : null,	
+	}
 	const pattern = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,];
 
 	const sequencerSteps = sequencerNode.querySelectorAll('.drum-machine__sequencer-step');
@@ -16,7 +17,7 @@ export default function Sequencer(sequencerNode, index) {
 
 	function loadAudioIntoBuffer(audioContext, samplePaths) {	
 		setupSamples(audioContext, samplePaths).then((response) => {
-			samples = response;
+			sequencer.samples = response;
 		})
 	}
 
@@ -26,7 +27,7 @@ export default function Sequencer(sequencerNode, index) {
 	}
 
 	function toggleIsPlaying() {
-		isPlaying = !isPlaying;
+		sequencer.isPlaying = !sequencer.isPlaying;
 	}
 
 	function toggleActiveClass(currentPatternIndex) {
@@ -60,7 +61,7 @@ export default function Sequencer(sequencerNode, index) {
 
 	function scheduleSample(audioContext, time) {
 		const sampleSource = audioContext.createBufferSource();
-		sampleSource.buffer = samples[rightSampleIndex];
+		sampleSource.buffer = samples[sequencer.rightSampleIndex];
 		sampleSource.connect(audioContext.destination);
 		sampleSource.start(time);
 	}
@@ -72,7 +73,7 @@ export default function Sequencer(sequencerNode, index) {
 	}
 
 	function setTimeSignature(signature) {
-		timeSignature = signature;
+		sequencer.timeSignature = signature;
 	}
 
 	function renderHtml() {
@@ -81,7 +82,7 @@ export default function Sequencer(sequencerNode, index) {
 	}
 
 	function renderTimeSignature() {
-		if (timeSignature === '3/4') {
+		if (sequencer.timeSignature === '3/4') {
 			for (let index = 12; index < pattern.length; index += 1) {
 				sequencerSteps[index].classList.add('drum-machine__step--deactivated')
 			}
@@ -102,8 +103,6 @@ export default function Sequencer(sequencerNode, index) {
 			}
 		}
 	}
-
-	renderHtml();
 
 	return {
 		loadAudioIntoBuffer,
