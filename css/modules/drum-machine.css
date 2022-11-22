@@ -69,6 +69,10 @@
 	background-color: blue;
 }
 
+.drum-machine__step--deactivated {
+	background-color: gray;
+}
+
 .drum-machine__sequencer-play-head {
 	background-color: gray;
 }

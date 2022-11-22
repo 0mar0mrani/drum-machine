@@ -20,17 +20,7 @@ export default function DrumMachine() {
 		currentPatternIndex : 0,
 
 		sixteenthNoteInMilliseconds: null,
-		eighthNoteInMilliseconds: null,
-		quarterNoteInMilliseconds: null,
-
-		currentDivision: null,
-	}
-
-	const clearPatternButton = document.querySelector('.drum-machine__clear-button');
-	clearPatternButton.addEventListener('click', handleClearPatternButton);
-
-	function handleClearPatternButton() {
-		applyNewDrumPattern(patterns.clearPattern);
+		timeSignature: null,
 	}
 
 	const HouseSamples = ['/assets/audio/house/hihat.mp3', '/assets/audio/house/perc.mp3', '/assets/audio/house/snare.mp3', '/assets/audio/house/kick.mp3'];
@@ -94,7 +84,8 @@ export default function DrumMachine() {
 	}
 
 	function handleSelectDivisionChange() {
-		setDivision();
+		setTimeSignature();
+		renderHtml();
 	}
 
 	function handleExtremeButtonClick() {
@@ -123,10 +114,9 @@ export default function DrumMachine() {
 		}
 	}
 
-	function calculateNoteDivisions() {
-		drumMachine.quarterNoteInMilliseconds = (60 / drumMachine.bpm) * 1000;
-		drumMachine.eighthNoteInMilliseconds = drumMachine.quarterNoteInMilliseconds / 2;
-		drumMachine.sixteenthNoteInMilliseconds = drumMachine.quarterNoteInMilliseconds / 4;
+	function calculateSixteenthNoteInMilliseconds() {
+		const quarterNoteInMilliseconds = (60 / drumMachine.bpm) * 1000;
+		drumMachine.sixteenthNoteInMilliseconds = quarterNoteInMilliseconds / 4;
 	}
 
 	function returnFetchPattern(genre) {
@@ -149,17 +139,12 @@ export default function DrumMachine() {
 		}
 	}
 
-	function setDivision() {
-		switch(selectDivision.value) {
-			case '4':
-				drumMachine.currentDivision = drumMachine.quarterNoteInMilliseconds;
-				break
-			case '8':
-				drumMachine.currentDivision = drumMachine.eighthNoteInMilliseconds;
-				break
-			case '16':
-				drumMachine.currentDivision = drumMachine.sixteenthNoteInMilliseconds;
-				break
+	function setTimeSignature() {
+		const timeSignature = selectDivision.value
+		drumMachine.timeSignature = timeSignature;
+
+		for (const sequencerModule of sequencerModules) {
+			sequencerModule.setTimeSignature(timeSignature);
 		}
 	}
 
@@ -196,7 +181,7 @@ export default function DrumMachine() {
 			}
 			
 			triggerID = setTimeout(scheduleToggleActiveClass(drumMachine.currentPatternIndex), scheduleAheadTime);
-			nextTriggerTime += (drumMachine.currentDivision / 1000); 
+			nextTriggerTime += (drumMachine.sixteenthNoteInMilliseconds / 1000); 
 			setNextCurrentPatternIndex();
 		}
 
@@ -221,10 +206,19 @@ export default function DrumMachine() {
 	}
 
 	function setNextCurrentPatternIndex() {
-		if (drumMachine.currentPatternIndex === 15) {
+		if (drumMachine.timeSignature === '3/4') {
+			if (drumMachine.currentPatternIndex >= 11) {
 			drumMachine.currentPatternIndex = 0;
 		} else {
 			drumMachine.currentPatternIndex += 1;
+			}
+
+		} else {
+			if (drumMachine.currentPatternIndex >= 15) {
+				drumMachine.currentPatternIndex = 0;
+			} else {
+				drumMachine.currentPatternIndex += 1;
+			}
 		}
 	}
 
@@ -234,7 +228,7 @@ export default function DrumMachine() {
 		} else {
 			drumMachine.bpm = tempoSlider.value;
 		}
-		calculateNoteDivisions();
+		calculateSixteenthNoteInMilliseconds();
 	}
 
 	function resetDrumMachine() {
@@ -296,7 +290,7 @@ export default function DrumMachine() {
 		sequencerModule.loadAudioIntoBuffer(audioContext, samplePaths);
 	}
 
-	calculateNoteDivisions();
-	setDivision();
+	setTimeSignature();
+	calculateSixteenthNoteInMilliseconds();
 	renderHtml();
 }
