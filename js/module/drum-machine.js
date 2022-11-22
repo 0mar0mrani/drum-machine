@@ -260,6 +260,11 @@ export default function DrumMachine() {
 		renderPlayPauseIcon();
 		renderBpm();
 		renderExtremeButton();
+
+		for (let index = 0; index < sequencerModules.length; index += 1) {
+			const sequencerModule = sequencerModules[index];
+			sequencerModule.renderHtml();
+		}
 	}
 
 	function renderBpm() {
