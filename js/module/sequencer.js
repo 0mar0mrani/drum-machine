@@ -2,6 +2,7 @@ export default function Sequencer(sequencerNode, index) {
 	let samples;
 	let rightSampleIndex = index;
 	let isPlaying = false;
+	let timeSignature;
 
 	const pattern = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,];
 
@@ -70,8 +71,26 @@ export default function Sequencer(sequencerNode, index) {
 		}
 	}
 
+	function setTimeSignature(signature) {
+		timeSignature = signature;
+	}
+
 	function renderHtml() {
 		renderSequence();
+		renderTimeSignature();
+	}
+
+	function renderTimeSignature() {
+		if (timeSignature === '3/4') {
+			for (let index = 12; index < pattern.length; index += 1) {
+				sequencerSteps[index].classList.add('drum-machine__step--deactivated')
+			}
+			
+		} else {
+			for (let index = 0; index < pattern.length; index += 1) {
+				sequencerSteps[index].classList.remove('drum-machine__step--deactivated')
+			}
+		}
 	}
 
 	function renderSequence() {
@@ -95,5 +114,6 @@ export default function Sequencer(sequencerNode, index) {
 		toggleIsPlaying,
 		renderHtml,
 		changePattern,
+		setTimeSignature,
 	}
 }
