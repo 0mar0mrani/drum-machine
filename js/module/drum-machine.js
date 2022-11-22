@@ -36,14 +36,13 @@ export default function DrumMachine() {
 	const HouseSamples = ['/assets/audio/house/hihat.mp3', '/assets/audio/house/perc.mp3', '/assets/audio/house/snare.mp3', '/assets/audio/house/kick.mp3'];
 	const hiphopSamples = ['/assets/audio/hiphop/hihat.mp3', '/assets/audio/hiphop/perc.mp3', '/assets/audio/hiphop/snare.mp3', '/assets/audio/hiphop/kick.mp3'];
 	const acousticSamples = ['/assets/audio/acoustic/hihat.mp3', '/assets/audio/acoustic/perc.mp3', '/assets/audio/acoustic/snare.mp3', '/assets/audio/acoustic/kick.mp3'];
-	let samplePaths = HouseSamples;
+	let samplePaths;
 
-	let timerID;
-	let triggerID;
 	const audioContext = new AudioContext();
-
 	const lookahead = 25.0; 
 	const scheduleAheadTime = 0.1; 
+	let timerID;
+	let triggerID;
 	let nextTriggerTime = 0 
 
 	// QuerrySelectors
@@ -81,33 +80,17 @@ export default function DrumMachine() {
 	}
 
 	function handleSelectPatternChange() {
-		let newPattern;
-		let newBpm
-
-		switch(selectPattern.value) {
-			case 'house':
-				newPattern = patterns.housePattern;
-				newBpm = 120;
-				break
-			case 'hiphop':
-				newPattern = patterns.hiphopPattern;
-				newBpm = 140;
-				break
-			case 'acoustic':
-				newPattern = patterns.acousticPattern;
-				newBpm = 110;
-				break
-		}
-
+		const genre = selectPattern.value;
+		const [newPattern, newBpm] = returnFetchPattern(genre);
+		applyNewDrumPattern(newPattern);
 		changeBpm(newBpm);
 		setDivision();
-		applyNewDrumPattern(newPattern);
-		loadNewSamplesToBuffer(selectPattern.value);
+		loadSamplesToBuffer(genre);
 		renderHtml();
 	}
 
 	function handleSelectSamplesChange() {
-		loadNewSamplesToBuffer(selectSamples.value);
+		loadSamplesToBuffer(selectSamples.value);
 	}
 
 	function handleSelectDivisionChange() {
@@ -140,10 +123,30 @@ export default function DrumMachine() {
 		}
 	}
 
-	function calculateSixteenthNote() {
+	function calculateNoteDivisions() {
 		drumMachine.quarterNoteInMilliseconds = (60 / drumMachine.bpm) * 1000;
 		drumMachine.eighthNoteInMilliseconds = drumMachine.quarterNoteInMilliseconds / 2;
 		drumMachine.sixteenthNoteInMilliseconds = drumMachine.quarterNoteInMilliseconds / 4;
+	}
+
+	function returnFetchPattern(genre) {
+		let newPattern;
+		let newBpm;
+
+		switch(genre) {
+			case 'house':
+				newPattern = patterns.housePattern;
+				newBpm = 120;
+				return [newPattern, newBpm]
+			case 'hiphop':
+				newPattern = patterns.hiphopPattern;
+				newBpm = 140;
+				return [newPattern, newBpm]
+			case 'acoustic':
+				newPattern = patterns.acousticPattern;
+				newBpm = 110;
+				return [newPattern, newBpm]
+		}
 	}
 
 	function setDivision() {
@@ -158,6 +161,26 @@ export default function DrumMachine() {
 				drumMachine.currentDivision = drumMachine.sixteenthNoteInMilliseconds;
 				break
 		}
+	}
+
+	function loadSamplesToBuffer(genre) {
+		switch(genre) {
+			case 'house':
+				samplePaths = HouseSamples;
+				break
+			case 'hiphop':
+				samplePaths = hiphopSamples;
+				break
+			case 'acoustic':
+				samplePaths = acousticSamples;
+				break
+		}
+
+		for (const sequencerModule of sequencerModules) {
+			sequencerModule.loadAudioIntoBuffer(audioContext, samplePaths);
+		}
+
+		selectSamples.value = genre;
 	}
 
 	function scheduler() {	
@@ -211,7 +234,7 @@ export default function DrumMachine() {
 		} else {
 			drumMachine.bpm = tempoSlider.value;
 		}
-		calculateSixteenthNote();
+		calculateNoteDivisions();
 	}
 
 	function resetDrumMachine() {
@@ -228,26 +251,6 @@ export default function DrumMachine() {
 			sequencerModule.changePattern(pattern[index]); 
 			sequencerModule.renderHtml();
 		}
-	}
-
-	function loadNewSamplesToBuffer(genre) {
-		switch(genre) {
-			case 'house':
-				samplePaths = HouseSamples;
-				break
-			case 'hiphop':
-				samplePaths = hiphopSamples;
-				break
-			case 'acoustic':
-				samplePaths = acousticSamples;
-				break
-		}
-
-		for (const sequencerModule of sequencerModules) {
-			sequencerModule.loadAudioIntoBuffer(audioContext, samplePaths);
-		}
-
-		selectSamples.value = genre;
 	}
 
 	function toggleExtremeTempo() {
@@ -287,12 +290,13 @@ export default function DrumMachine() {
 	}
 
 	// Called methods
+	loadSamplesToBuffer(selectSamples.value)
+
 	for (const sequencerModule of sequencerModules) {
 		sequencerModule.loadAudioIntoBuffer(audioContext, samplePaths);
 	}
 
-	renderHtml();
-	calculateSixteenthNote();
+	calculateNoteDivisions();
 	setDivision();
-	// applyNewDrumPattern(patterns.housePattern);
+	renderHtml();
 }
