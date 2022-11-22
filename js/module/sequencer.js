@@ -4,8 +4,8 @@ export default function Sequencer(sequencerNode, index) {
 		rightSampleIndex : index,
 		isPlaying : false,
 	   timeSignature : null,	
+		pattern : [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,],
 	}
-	const pattern = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,];
 
 	const sequencerSteps = sequencerNode.querySelectorAll('.drum-machine__sequencer-step');
 
@@ -22,7 +22,7 @@ export default function Sequencer(sequencerNode, index) {
 	}
 
 	function handleSequencerStepsClick(event, index) {
-		pattern[index] = !pattern[index];
+		sequencer.pattern[index] = !sequencer.pattern[index];
 		renderHtml()
 	}
 
@@ -61,14 +61,14 @@ export default function Sequencer(sequencerNode, index) {
 
 	function scheduleSample(audioContext, time) {
 		const sampleSource = audioContext.createBufferSource();
-		sampleSource.buffer = samples[sequencer.rightSampleIndex];
+		sampleSource.buffer = sequencer.samples[sequencer.rightSampleIndex];
 		sampleSource.connect(audioContext.destination);
 		sampleSource.start(time);
 	}
 
 	function changePattern(newPattern) {
-		for (let index = 0; index < pattern.length; index += 1) {
-			pattern[index] = newPattern[index];
+		for (let index = 0; index < sequencer.pattern.length; index += 1) {
+			sequencer.pattern[index] = newPattern[index];
 		}
 	}
 
@@ -83,20 +83,20 @@ export default function Sequencer(sequencerNode, index) {
 
 	function renderTimeSignature() {
 		if (sequencer.timeSignature === '3/4') {
-			for (let index = 12; index < pattern.length; index += 1) {
+			for (let index = 12; index < sequencer.pattern.length; index += 1) {
 				sequencerSteps[index].classList.add('drum-machine__step--deactivated')
 			}
 			
 		} else {
-			for (let index = 0; index < pattern.length; index += 1) {
+			for (let index = 0; index < sequencer.pattern.length; index += 1) {
 				sequencerSteps[index].classList.remove('drum-machine__step--deactivated')
 			}
 		}
 	}
 
 	function renderSequence() {
-		for (let index = 0; index < pattern.length; index += 1) {
-			if (pattern[index]) {
+		for (let index = 0; index < sequencer.pattern.length; index += 1) {
+			if (sequencer.pattern[index]) {
 				sequencerSteps[index].classList.add('drum-machine__step--active')
 			} else {
 				sequencerSteps[index].classList.remove('drum-machine__step--active')
@@ -107,12 +107,12 @@ export default function Sequencer(sequencerNode, index) {
 	return {
 		loadAudioIntoBuffer,
 		scheduleSample,
-		pattern,
 		toggleActiveClass,
 		removeActiveClass,
 		toggleIsPlaying,
 		renderHtml,
 		changePattern,
 		setTimeSignature,
+		sequencer,
 	}
 }

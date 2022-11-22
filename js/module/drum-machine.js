@@ -5,7 +5,6 @@ export default function DrumMachine() {
 	// Get Data from import
 	const sequencerModules = []
 	const allSequences = document.querySelectorAll('.drum-machine__sequencer');
-
 	for (let index = 0; index < allSequences.length; index += 1) {
 		sequencerModules.push(Sequencer(allSequences[index], index));
 	}
@@ -116,6 +115,15 @@ export default function DrumMachine() {
 		}
 	}
 
+	function setTimeSignature() {
+		const timeSignature = selectDivision.value
+		drumMachine.timeSignature = timeSignature;
+
+		for (const sequencerModule of sequencerModules) {
+			sequencerModule.setTimeSignature(timeSignature);
+		}
+	}
+
 	function calculateSixteenthNoteInMilliseconds() {
 		const quarterNoteInMilliseconds = (60 / drumMachine.bpm) * 1000;
 		drumMachine.sixteenthNoteInMilliseconds = quarterNoteInMilliseconds / 4;
@@ -138,15 +146,6 @@ export default function DrumMachine() {
 				newPattern = patterns.acousticPattern;
 				newBpm = 110;
 				return [newPattern, newBpm]
-		}
-	}
-
-	function setTimeSignature() {
-		const timeSignature = selectDivision.value
-		drumMachine.timeSignature = timeSignature;
-
-		for (const sequencerModule of sequencerModules) {
-			sequencerModule.setTimeSignature(timeSignature);
 		}
 	}
 
@@ -177,7 +176,7 @@ export default function DrumMachine() {
 
 		while (drumMachine.timing.nextTriggerTime < drumMachine.audioContext.currentTime + drumMachine.timing.scheduleAheadTime) {
 			for (const sequencerModule of sequencerModules) {
-				if (sequencerModule.pattern[drumMachine.currentPatternIndex]) {
+				if (sequencerModule.sequencer.pattern[drumMachine.currentPatternIndex]) {
 					sequencerModule.scheduleSample(drumMachine.audioContext, drumMachine.timing.nextTriggerTime);
 				}
 			}
