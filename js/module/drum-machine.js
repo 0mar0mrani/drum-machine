@@ -4,8 +4,8 @@ import Patterns from "./patterns.js";
 export default function DrumMachine() {
 	// Get Data from import
 	const sequencerModules = []
-
 	const allSequences = document.querySelectorAll('.drum-machine__sequencer');
+
 	for (let index = 0; index < allSequences.length; index += 1) {
 		sequencerModules.push(Sequencer(allSequences[index], index));
 	}
@@ -14,26 +14,28 @@ export default function DrumMachine() {
 
 	// Data
 	const drumMachine = {
+		audioContext : new AudioContext(),
 		bpm : 120,
 		isPlaying : false, 
 		isExtremeTempo : false,
 		currentPatternIndex : 0,
-
 		sixteenthNoteInMilliseconds: null,
 		timeSignature: null,
+		samples: null,
+
+		timing: {
+			timerID: null,
+			triggerID: null,
+			lookahead : 25.0, 
+			scheduleAheadTime : 0.1, 
+			nextTriggerTime : 0, 
+		},
 	}
 
 	const HouseSamples = ['/assets/audio/house/hihat.mp3', '/assets/audio/house/perc.mp3', '/assets/audio/house/snare.mp3', '/assets/audio/house/kick.mp3'];
 	const hiphopSamples = ['/assets/audio/hiphop/hihat.mp3', '/assets/audio/hiphop/perc.mp3', '/assets/audio/hiphop/snare.mp3', '/assets/audio/hiphop/kick.mp3'];
 	const acousticSamples = ['/assets/audio/acoustic/hihat.mp3', '/assets/audio/acoustic/perc.mp3', '/assets/audio/acoustic/snare.mp3', '/assets/audio/acoustic/kick.mp3'];
-	let samplePaths;
 
-	const audioContext = new AudioContext();
-	const lookahead = 25.0; 
-	const scheduleAheadTime = 0.1; 
-	let timerID;
-	let triggerID;
-	let nextTriggerTime = 0 
 
 	// QuerrySelectors
 	const playButton = document.querySelector('.drum-machine__play-button');
@@ -67,7 +69,6 @@ export default function DrumMachine() {
 
 	function handleTempoSliderChange() {
 		changeBpm();
-		setDivision();
 		renderHtml();
 	}
 
@@ -76,7 +77,6 @@ export default function DrumMachine() {
 		const [newPattern, newBpm] = returnFetchPattern(genre);
 		applyNewDrumPattern(newPattern);
 		changeBpm(newBpm);
-		setDivision();
 		loadSamplesToBuffer(genre);
 		renderHtml();
 	}
@@ -93,15 +93,12 @@ export default function DrumMachine() {
 	function handleExtremeButtonClick() {
 		drumMachine.isExtremeTempo = !drumMachine.isExtremeTempo;
 		toggleExtremeTempo();
-
 		if (!drumMachine.isExtremeTempo) {
 			changeBpm(120);
-			setDivision();
 		}
-
 		renderHtml();
 	}
- 
+
 	function handleClearPatternButton() {
 		applyNewDrumPattern(patterns.clearPattern);
 	}
@@ -110,7 +107,6 @@ export default function DrumMachine() {
 	function storeUserPattern() {
 		// window.
 	}
-
 
 	function toggleIsPlaying () {
 		drumMachine.isPlaying = !drumMachine.isPlaying;
@@ -157,41 +153,41 @@ export default function DrumMachine() {
 	function loadSamplesToBuffer(genre) {
 		switch(genre) {
 			case 'house':
-				samplePaths = HouseSamples;
+				drumMachine.samples = HouseSamples;
 				break
 			case 'hiphop':
-				samplePaths = hiphopSamples;
+				drumMachine.samples = hiphopSamples;
 				break
 			case 'acoustic':
-				samplePaths = acousticSamples;
+				drumMachine.samples = acousticSamples;
 				break
 		}
 
 		for (const sequencerModule of sequencerModules) {
-			sequencerModule.loadAudioIntoBuffer(audioContext, samplePaths);
+			sequencerModule.loadAudioIntoBuffer(drumMachine.audioContext, drumMachine.samples);
 		}
 
 		selectSamples.value = genre;
 	}
 
 	function scheduler() {	
-		if (nextTriggerTime === 0) {
-			nextTriggerTime = audioContext.currentTime;
+		if (drumMachine.timing.nextTriggerTime === 0) {
+			drumMachine.timing.nextTriggerTime = drumMachine.audioContext.currentTime;
 		}
 
-		while (nextTriggerTime < audioContext.currentTime + scheduleAheadTime) {
+		while (drumMachine.timing.nextTriggerTime < drumMachine.audioContext.currentTime + drumMachine.timing.scheduleAheadTime) {
 			for (const sequencerModule of sequencerModules) {
 				if (sequencerModule.pattern[drumMachine.currentPatternIndex]) {
-					sequencerModule.scheduleSample(audioContext, nextTriggerTime);
+					sequencerModule.scheduleSample(drumMachine.audioContext, drumMachine.timing.nextTriggerTime);
 				}
 			}
 			
-			triggerID = setTimeout(scheduleToggleActiveClass(drumMachine.currentPatternIndex), scheduleAheadTime);
-			nextTriggerTime += (drumMachine.sixteenthNoteInMilliseconds / 1000); 
+			drumMachine.timing.triggerID = setTimeout(scheduleToggleActiveClass(drumMachine.currentPatternIndex), drumMachine.timing.scheduleAheadTime);
+			drumMachine.timing.nextTriggerTime += (drumMachine.sixteenthNoteInMilliseconds / 1000); 
 			setNextCurrentPatternIndex();
 		}
 
-		timerID = setTimeout(scheduler, lookahead);
+		drumMachine.timing.timerID = setTimeout(scheduler, drumMachine.timing.lookahead);
 	}
 
 	function scheduleToggleActiveClass(currentPatternIndex) {
@@ -202,21 +198,21 @@ export default function DrumMachine() {
 
 	function toggleSequence() {
 		if (drumMachine.isPlaying) {
-			audioContext.resume();
+			drumMachine.audioContext.resume();
 			scheduler();
 
 		} else {
-			audioContext.suspend();
-			clearInterval(timerID);
+			drumMachine.audioContext.suspend();
+			clearInterval(drumMachine.timerID);
 		}
 	}
 
 	function setNextCurrentPatternIndex() {
 		if (drumMachine.timeSignature === '3/4') {
 			if (drumMachine.currentPatternIndex >= 11) {
-			drumMachine.currentPatternIndex = 0;
-		} else {
-			drumMachine.currentPatternIndex += 1;
+				drumMachine.currentPatternIndex = 0;
+			} else {
+				drumMachine.currentPatternIndex += 1;
 			}
 
 		} else {
@@ -298,7 +294,7 @@ export default function DrumMachine() {
 	loadSamplesToBuffer(selectSamples.value)
 
 	for (const sequencerModule of sequencerModules) {
-		sequencerModule.loadAudioIntoBuffer(audioContext, samplePaths);
+		sequencerModule.loadAudioIntoBuffer(drumMachine.audioContext, drumMachine.samples);
 	}
 
 	setTimeSignature();
