@@ -13,21 +13,23 @@ export default function DrumMachine() {
 	const patterns = Patterns();
 
 	// Data
-	let bpm = 120;
-	let sixteenthNoteInMilliseconds;
-	let eighthNoteInMilliseconds;
-	let quarterNoteInMilliseconds;
+	const drumMachine = {
+		bpm : 120,
+		isPlaying : false, 
+		isExtremeTempo : false,
+		currentPatternIndex : 0,
 
-	let currentDivision;
+		sixteenthNoteInMilliseconds: null,
+		eighthNoteInMilliseconds: null,
+		quarterNoteInMilliseconds: null,
 
-	let isPlaying = false; 
-	let isExtremeTempo = false;
-	let currentPatternIndex = 0;
+		currentDivision: null,
+	}
 
-	const savePatternButton = document.querySelector('.drum-machine__clear-button');
-	savePatternButton.addEventListener('click', handleSavePatternButton);
+	const clearPatternButton = document.querySelector('.drum-machine__clear-button');
+	clearPatternButton.addEventListener('click', handleClearPatternButton);
 
-	function handleSavePatternButton() {
+	function handleClearPatternButton() {
 		applyNewDrumPattern(patterns.clearPattern);
 	}
 
@@ -66,7 +68,7 @@ export default function DrumMachine() {
 	function handlePlayButtonClick() {
 		toggleIsPlaying();
 		toggleSequence();	
-		if (!isPlaying) {
+		if (!drumMachine.isPlaying) {
 			resetDrumMachine();
 		}
 		renderHtml();
@@ -113,10 +115,10 @@ export default function DrumMachine() {
 	}
 
 	function handleExtremeButtonClick() {
-		isExtremeTempo = !isExtremeTempo;
+		drumMachine.isExtremeTempo = !drumMachine.isExtremeTempo;
 		toggleExtremeTempo();
 
-		if (!isExtremeTempo) {
+		if (!drumMachine.isExtremeTempo) {
 			changeBpm(120);
 			setDivision();
 		}
@@ -131,7 +133,7 @@ export default function DrumMachine() {
 
 
 	function toggleIsPlaying () {
-		isPlaying = !isPlaying;
+		drumMachine.isPlaying = !drumMachine.isPlaying;
 
 		for (const sequencerModule of sequencerModules) {
 			sequencerModule.toggleIsPlaying();
@@ -139,21 +141,21 @@ export default function DrumMachine() {
 	}
 
 	function calculateSixteenthNote() {
-		quarterNoteInMilliseconds = (60 / bpm) * 1000;
-		eighthNoteInMilliseconds = quarterNoteInMilliseconds / 2;
-		sixteenthNoteInMilliseconds = quarterNoteInMilliseconds / 4;
+		drumMachine.quarterNoteInMilliseconds = (60 / drumMachine.bpm) * 1000;
+		drumMachine.eighthNoteInMilliseconds = drumMachine.quarterNoteInMilliseconds / 2;
+		drumMachine.sixteenthNoteInMilliseconds = drumMachine.quarterNoteInMilliseconds / 4;
 	}
 
 	function setDivision() {
 		switch(selectDivision.value) {
 			case '4':
-				currentDivision = quarterNoteInMilliseconds;
+				drumMachine.currentDivision = drumMachine.quarterNoteInMilliseconds;
 				break
 			case '8':
-				currentDivision = eighthNoteInMilliseconds;
+				drumMachine.currentDivision = drumMachine.eighthNoteInMilliseconds;
 				break
 			case '16':
-				currentDivision = sixteenthNoteInMilliseconds;
+				drumMachine.currentDivision = drumMachine.sixteenthNoteInMilliseconds;
 				break
 		}
 	}
@@ -165,13 +167,13 @@ export default function DrumMachine() {
 
 		while (nextTriggerTime < audioContext.currentTime + scheduleAheadTime) {
 			for (const sequencerModule of sequencerModules) {
-				if (sequencerModule.pattern[currentPatternIndex]) {
+				if (sequencerModule.pattern[drumMachine.currentPatternIndex]) {
 					sequencerModule.scheduleSample(audioContext, nextTriggerTime);
 				}
 			}
 			
-			triggerID = setTimeout(scheduleToggleActiveClass(currentPatternIndex), scheduleAheadTime);
-			nextTriggerTime += (currentDivision / 1000); 
+			triggerID = setTimeout(scheduleToggleActiveClass(drumMachine.currentPatternIndex), scheduleAheadTime);
+			nextTriggerTime += (drumMachine.currentDivision / 1000); 
 			setNextCurrentPatternIndex();
 		}
 
@@ -180,12 +182,12 @@ export default function DrumMachine() {
 
 	function scheduleToggleActiveClass(currentPatternIndex) {
 		for (const sequencerModule of sequencerModules) {
-			sequencerModule.toggleActiveClass(currentPatternIndex);
+			sequencerModule.toggleActiveClass(drumMachine.currentPatternIndex);
 		}
 	}
 
 	function toggleSequence() {
-		if (isPlaying) {
+		if (drumMachine.isPlaying) {
 			audioContext.resume();
 			scheduler();
 
@@ -196,18 +198,18 @@ export default function DrumMachine() {
 	}
 
 	function setNextCurrentPatternIndex() {
-		if (currentPatternIndex === 15) {
-			currentPatternIndex = 0;
+		if (drumMachine.currentPatternIndex === 15) {
+			drumMachine.currentPatternIndex = 0;
 		} else {
-			currentPatternIndex += 1;
+			drumMachine.currentPatternIndex += 1;
 		}
 	}
 
 	function changeBpm(newBpm) {
 		if (newBpm) {
-			bpm = newBpm;
+			drumMachine.bpm = newBpm;
 		} else {
-			bpm = tempoSlider.value;
+			drumMachine.bpm = tempoSlider.value;
 		}
 		calculateSixteenthNote();
 	}
@@ -217,7 +219,7 @@ export default function DrumMachine() {
 			sequencerModule.removeActiveClass();
 		}
 		
-		currentPatternIndex = 0;
+		drumMachine.currentPatternIndex = 0;
 	}
 
 	function applyNewDrumPattern(pattern) {
@@ -249,7 +251,7 @@ export default function DrumMachine() {
 	}
 
 	function toggleExtremeTempo() {
-		if (isExtremeTempo) {
+		if (drumMachine.isExtremeTempo) {
 			tempoSlider.setAttribute('max', 10000);
 		} else {
 			tempoSlider.setAttribute('max', 200);
@@ -264,12 +266,12 @@ export default function DrumMachine() {
 	}
 
 	function renderBpm() {
-		tempoSlider.value = bpm;
-		tempoDisplay.innerText = bpm;
+		tempoSlider.value = drumMachine.bpm;
+		tempoDisplay.innerText = drumMachine.bpm;
 	}
 
 	function renderPlayPauseIcon() {
-		if (isPlaying) {
+		if (drumMachine.isPlaying) {
 			playButtonIcon.src = "/assets/svg/pause.svg";
 		} else {
 			playButtonIcon.src = '/assets/svg/play.svg';
@@ -277,7 +279,7 @@ export default function DrumMachine() {
 	}
 
 	function renderExtremeButton() {
-		if (isExtremeTempo) {
+		if (drumMachine.isExtremeTempo) {
 			extremeButton.classList.add('drum-machine__tempo-extreme-button--active');
 		} else {
 			extremeButton.classList.remove('drum-machine__tempo-extreme-button--active');
