@@ -57,12 +57,23 @@
 	transform: translateY(0);
 }
 
+.drum-machine__display {
+	background-color: #151515;
+	border-radius: 0.5rem;
+	padding: 2rem;
+	display: grid;
+	grid-template-columns: 1.5fr 2fr 2fr;
+	column-gap: 2rem;
+}
+
 .drum-machine__tempo-slider {
 	width: 30%;
 }
 
 .drum-machine__tempo-extreme-button {
-	font-size: 2rem;
+	text-align: start;
+	margin-left: 0.4rem;
+
 }
 
 .drum-machine__tempo-extreme-button--active {
@@ -70,7 +81,22 @@
 }
 
 .drum-machine__tempo-display {
+	color: #dedfe0;
 	font-size: 4rem;
+	grid-row: 1 / 3;
+}
+
+.drum-machine__select-pattern,
+.drum-machine__select-samples,
+.drum-machine__select-division,
+.drum-machine__tempo-extreme-button {
+	color: #dedfe0;
+	background-color: inherit;
+	border: none;
+}
+
+.drum-machine__select-samples {
+	grid-row: 2 / 3;
 }
 
 .drum-machine__sequencer {
