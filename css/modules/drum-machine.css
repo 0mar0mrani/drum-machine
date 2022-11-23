@@ -219,8 +219,8 @@
 
 .drum-machine__save-button:active, 
 .drum-machine__clear-button:active,
-.drum-machine__save-button-content:active,
-.drum-machine__clear-button-content:active  {
+.drum-machine__save-button:active .drum-machine__save-button-content,
+.drum-machine__clear-button:active .drum-machine__clear-button-content {
 	box-shadow: none;
 }
 
@@ -230,8 +230,8 @@
 	transition: all 0.1s ease-in-out;
 }
 
-.drum-machine__save-button-content div:active,
-.drum-machine__clear-button-content div:active {
+.drum-machine__save-button:active .drum-machine__save-button-content div,
+.drum-machine__clear-button:active .drum-machine__clear-button-content div {
 	transform: translateY(0);
 }
 
