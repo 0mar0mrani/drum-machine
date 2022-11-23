@@ -40,6 +40,7 @@ export default function DrumMachine() {
 	const playButton = document.querySelector('.drum-machine__play-button');
 	const playButtonIcon = document.querySelector('.drum-machine__play-button-icon');
 	const clearPatternButton = document.querySelector('.drum-machine__clear-button');
+	const savePattern = document.querySelector('.drum-machine__save-button');
 	const tempoSlider = document.querySelector('.drum-machine__tempo-slider');
 	const tempoDisplay = document.querySelector('.drum-machine__tempo-display');
 	const selectSamples = document.querySelector('.drum-machine__select-samples');
@@ -50,6 +51,7 @@ export default function DrumMachine() {
 	// Eventlisteners
 	playButton.addEventListener('click', handlePlayButtonClick);
 	clearPatternButton.addEventListener('click', handleClearPatternButton);
+	savePattern.addEventListener('click', handleSavePatternButton);
 	tempoSlider.addEventListener('input', handleTempoSliderChange);
 	selectSamples.addEventListener('change', handleSelectSamplesChange);
 	selectPattern.addEventListener('change', handleSelectPatternChange);
@@ -101,10 +103,43 @@ export default function DrumMachine() {
 	function handleClearPatternButton() {
 		applyNewDrumPattern(patterns.clearPattern);
 	}
+
+	function handleSavePatternButton() {
+		saveUserPattern();
+		storeLocalUserPattern();
+		console.log('stored');
+	}
  
 	//Methods
-	function storeUserPattern() {
-		// window.
+	function saveUserPattern() {
+		const fullPattern = []
+
+		for (const sequencerModule of sequencerModules) {
+			const sequencerPattern = []
+
+			for (const step of sequencerModule.sequencer.pattern) {
+				sequencerPattern.push(step);
+			}
+
+			fullPattern.push(sequencerPattern)
+		}
+
+		patterns.userPattern = fullPattern;
+	}
+
+	function storeLocalUserPattern() {
+		const userPattern = patterns.userPattern;
+		const serializedPattern = JSON.stringify(userPattern);
+		window.localStorage.setItem('userPatternLocal', serializedPattern);
+	}
+
+	function getLocalUserPattern() {
+		const localUserPattern = window.localStorage.getItem('userPatternLocal');
+		const parsedLocalPattern = JSON.parse(localUserPattern);
+
+		if (localUserPattern) {
+			patterns.userPattern = parsedLocalPattern;
+		} 
 	}
 
 	function toggleIsPlaying () {
@@ -146,6 +181,11 @@ export default function DrumMachine() {
 				newPattern = patterns.acousticPattern;
 				newBpm = 110;
 				return [newPattern, newBpm]
+			case 'user':
+				newPattern = patterns.userPattern;
+				newBpm = 120;
+				console.log(patterns.userPattern);
+				return [newPattern, newBpm];
 		}
 	}
 
@@ -298,5 +338,6 @@ export default function DrumMachine() {
 
 	setTimeSignature();
 	calculateSixteenthNoteInMilliseconds();
+	getLocalUserPattern();
 	renderHtml();
 }

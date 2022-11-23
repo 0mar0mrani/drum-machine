@@ -20,6 +20,12 @@ export default function Patterns() {
 		[true, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false], // Kick
 	]
 
+	const userPattern = [
+		[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false], // Hihat
+		[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false], // Perc
+		[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false], // Snare
+		[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false], // Kick
+	]
 
 	const clearPattern = [
 		[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false], // Hihat
@@ -32,6 +38,7 @@ export default function Patterns() {
 		housePattern,
 		hiphopPattern,
 		acousticPattern,
+		userPattern,
 		clearPattern,
 	}
 }
