@@ -150,7 +150,7 @@
 }
 
 .drum-machine__step--active .drum-machine__sequencer-step-light {
-	background-color: #ff6a73;
+	background-color: #ff7681;
 	transform: translateY(0rem);
 }
 
