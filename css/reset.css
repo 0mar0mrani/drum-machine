@@ -9,3 +9,7 @@ button {
 	font-size: inherit;
 	cursor: pointer;
 }
+
+select {
+	font-size: inherit;
+}
