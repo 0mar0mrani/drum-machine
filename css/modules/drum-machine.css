@@ -46,6 +46,7 @@
 
 .drum-machine__sequencer {
 	display: flex;
+	align-items: center;;
 	gap: 1rem;
 }
 
@@ -59,12 +60,14 @@
 }
 
 .drum-machine__sequencer-sample {
-	font-size: 3rem;
-	padding: 0 1rem;
-	border: solid 0.5px;
-	cursor: pointer;
+	width: 4rem;
+	height: 4rem;
 	margin-right: 2rem;
-	width: 10rem;
+}
+
+.drum-machine__sequencer-sample img {
+	width: 100%;
+	height: 100%;
 }
 
 .drum-machine__sequencer-step {
@@ -129,3 +132,4 @@
 .drum-machine__sequencer-play-head {
 	background-color: gray;
 }
+
