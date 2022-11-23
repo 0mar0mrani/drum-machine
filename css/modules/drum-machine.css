@@ -1,8 +1,11 @@
 .drum-machine {
-	max-width: 100rem;
+	max-width: 120rem;
 	justify-content: center;
 	align-items: center;
 	flex-grow: 1;
+	background-color: #d1cdcc;
+	padding: 2rem;
+	border-radius: 1.5rem;
 }
 
 .drum-machine__controllers {
@@ -43,6 +46,11 @@
 
 .drum-machine__sequencer {
 	display: flex;
+	gap: 1rem;
+}
+
+.drum-machine__sequencer:not(:last-child) {
+	margin-bottom: 1rem;
 }
 
 .drum-machine__sequencer-steps {
@@ -62,11 +70,56 @@
 .drum-machine__sequencer-step {
 	flex-grow: 1;
 	aspect-ratio : 1 / 1;
-	border: solid 0.5px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	border-left:2px solid #888888;
+	border-top:2px solid #888888;
+	border-bottom:2px solid #888888;
+	border-right: none;
+
+	border-radius: 0.4rem;
+	position: relative;
+	transition: all 0.1s ease-in-out;
+	box-shadow:  -0.3rem 0.6rem 15px rgba(0, 0, 0, 0.2);
+	z-index: 0;
+	background-color: #949494;
+}
+
+.drum-machine__sequencer-step-content {
+	width:100%;
+   height:100%;
+	box-shadow:inset 0px -8px 0px #888888, 0px -8px 0px #949494;
+	border-radius: 0.2rem;
+	transition: 0.1s ease-in-out;
+	z-index:10;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.drum-machine__sequencer-step-light {
+	width: 75%;
+	height: 75%;
+	background-color: #a0a0a0;
+	transform: translateY(-0.8rem);
+	transition: all 0.1s ease-in-out;
+	border-radius: 0.5rem;
+	border: solid 0.1rem #7a7a7a53;
+}
+
+.drum-machine__step--active .drum-machine__sequencer-step-content {
+	box-shadow: none;
 }
 
 .drum-machine__step--active {
-	background-color: blue;
+	box-shadow:none;
+}
+
+.drum-machine__step--active .drum-machine__sequencer-step-light {
+	background-color: #ff6a73;
+	transform: translateY(0rem);
 }
 
 .drum-machine__step--deactivated {
