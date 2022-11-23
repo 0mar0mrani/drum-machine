@@ -188,3 +188,52 @@
 	background-color: gray;
 }
 
+.drum-machine__save-button, 
+.drum-machine__clear-button {
+	font-size: 3rem;
+
+	border-left:2px solid #888888;
+	border-top:2px solid #888888;
+	border-bottom:2px solid #888888;
+	border-right: none;
+
+	border-radius: 0.4rem;
+	position: relative;
+	transition: all 0.1s ease-in-out;
+	box-shadow:  -0.3rem 0.6rem 15px rgba(0, 0, 0, 0.2);
+	z-index: 0;
+
+	background-color: #949494;
+}
+
+.drum-machine__save-button-content,
+.drum-machine__clear-button-content {
+	padding: 1rem;
+	width:100%;
+   height:100%;
+	box-shadow:inset 0px -8px 0px #888888, 0px -8px 0px #949494;
+	border-radius: 0.2rem;
+	transition: 0.1s ease-in-out;
+	z-index:10;
+}
+
+.drum-machine__save-button:active, 
+.drum-machine__clear-button:active,
+.drum-machine__save-button-content:active,
+.drum-machine__clear-button-content:active  {
+	box-shadow: none;
+}
+
+.drum-machine__save-button-content div,
+.drum-machine__clear-button-content div {
+	transform: translateY(-0.8rem);
+	transition: all 0.1s ease-in-out;
+}
+
+.drum-machine__save-button-content div:active,
+.drum-machine__clear-button-content div:active {
+	transform: translateY(0);
+}
+
+
+
