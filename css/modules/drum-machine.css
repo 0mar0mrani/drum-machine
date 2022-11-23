@@ -13,19 +13,20 @@
 	align-items: center;
 	justify-content:space-between;
 	gap: 1rem;
+	margin-bottom: 2rem;
 }
 
 .drum-machine__play-button {
-	border-left:2px solid #888888;
-	border-top:2px solid #888888;
-	border-bottom:2px solid #888888;
+	border-left:2px solid #cc6b2e;
+	border-top:2px solid #cc6b2e;
+	border-bottom:2px solid #cc6b2e;
 	border-right: none;
 
 	border-radius: 0.4rem;
 	transition: all 0.1s ease-in-out;
 	box-shadow:  -0.3rem 0.6rem 15px rgba(0, 0, 0, 0.2);
 	z-index: 0;
-	background-color: #949494;
+	background-color: #ff8639;
 
 	width: 6rem;
 	height: 6rem;
@@ -34,7 +35,7 @@
 .drum-machine__play-button-content {
 	width:100%;
    height:100%;
-	box-shadow:inset 0px -8px 0px #888888, 0px -8px 0px #949494;
+	box-shadow:inset 0px -8px 0px #cc6b2e, 0px -8px 0px #ff8639;
 	border-radius: 0.2rem;
 	transition: 0.1s ease-in-out;
 	z-index:10;
@@ -90,7 +91,7 @@
 .drum-machine__sequencer-sample {
 	width: 4rem;
 	height: 4rem;
-	margin-right: 2rem;
+	margin: 1rem;
 }
 
 .drum-machine__sequencer-sample img {
