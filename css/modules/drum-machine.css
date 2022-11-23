@@ -66,8 +66,29 @@
 	column-gap: 2rem;
 }
 
-.drum-machine__tempo-slider {
+.drum-machine__tempo-slider-container {
 	width: 30%;
+}
+
+.drum-machine__tempo-slider {
+	width: 100%;
+	appearance: none;
+	height: 0.5rem;
+	border-radius: 1rem;
+	cursor: pointer;
+}
+
+.drum-machine__tempo-slider::-webkit-slider-thumb {
+	appearance: none;
+	width: 2rem;
+	height: 6rem;
+	background-color: #ff8639;
+	border-radius: 0.4rem;
+	box-shadow: inset 0px -6px 0px #cc6b2e, inset 2px 0px 0px #cc6b2e;
+}
+
+.drum-machine__tempo-slider::-webkit-slider-thumb {
+
 }
 
 .drum-machine__tempo-extreme-button {
