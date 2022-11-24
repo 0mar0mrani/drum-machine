@@ -110,7 +110,6 @@ export default function DrumMachine() {
 	function handleSavePatternButton() {
 		saveUserPattern();
 		storeLocalUserPattern();
-		console.log('stored');
 	}
  
 	//Methods
@@ -187,7 +186,6 @@ export default function DrumMachine() {
 			case 'user':
 				newPattern = patterns.userPattern;
 				newBpm = 120;
-				console.log(patterns.userPattern);
 				return [newPattern, newBpm];
 		}
 	}
