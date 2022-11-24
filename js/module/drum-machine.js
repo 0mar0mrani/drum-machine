@@ -207,7 +207,7 @@ export default function DrumMachine() {
 			sequencerModule.loadAudioIntoBuffer(drumMachine.audioContext, drumMachine.samples);
 		}
 
-		selectSamples.value = genre;
+		// selectSamples.value = genre;
 	}
 
 	function scheduler() {	
