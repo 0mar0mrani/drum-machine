@@ -112,8 +112,10 @@
 .drum-machine__select-division,
 .drum-machine__tempo-extreme-button {
 	color: #dedfe0;
+	appearance: none;
 	background-color: inherit;
 	border: none;
+	cursor: pointer;
 }
 
 .drum-machine__select-samples {
