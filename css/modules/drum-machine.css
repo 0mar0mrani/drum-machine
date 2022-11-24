@@ -106,6 +106,9 @@
 	color: #dedfe0;
 	font-size: 4rem;
 	grid-row: 2 / 3;
+	pointer-events: none;
+	user-select: none;
+	-webkit-user-select: none;
 }
 
 .drum-machine__select-pattern {
