@@ -148,6 +148,9 @@
 	width: 4rem;
 	height: 4rem;
 	margin: 1rem;
+	pointer-events: none;
+	user-select: none;
+	-webkit-user-select: none;
 }
 
 .drum-machine__sequencer-sample img {
