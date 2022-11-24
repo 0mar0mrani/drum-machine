@@ -115,6 +115,10 @@
 	grid-column: 2 / 3 ;
 }
 
+.drum-machine__select-samples {
+	grid-row: 2 / 3;
+}
+
 .drum-machine__select-pattern,
 .drum-machine__select-samples,
 .drum-machine__select-division,
