@@ -93,12 +93,23 @@
 	box-shadow: inset 0px -6px 0px #cc6b2e, inset 2px 0px 0px #cc6b2e;
 }
 
+.drum-machine__select-pattern,
+.drum-machine__select-samples,
+.drum-machine__select-division,
+.drum-machine__tempo-extreme-button {
+	color: #dedfe0;
+	appearance: none;
+	background-color: inherit;
+	border: none;
+	cursor: pointer;
+}
+
 .drum-machine__tempo-extreme-button {
 	text-align: start;
 }
 
 .drum-machine__tempo-extreme-button--active {
-	background-color: red;
+	color: #fd293b;
 }
 
 .drum-machine__tempo-display {
@@ -116,17 +127,6 @@
 
 .drum-machine__select-samples {
 	grid-row: 2 / 3;
-}
-
-.drum-machine__select-pattern,
-.drum-machine__select-samples,
-.drum-machine__select-division,
-.drum-machine__tempo-extreme-button {
-	color: #dedfe0;
-	appearance: none;
-	background-color: inherit;
-	border: none;
-	cursor: pointer;
 }
 
 .drum-machine__sequencer {
