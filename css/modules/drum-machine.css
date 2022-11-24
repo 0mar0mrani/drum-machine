@@ -41,6 +41,10 @@
 	z-index:10;
 }
 
+.drum-machine__play-button:active {
+	border-right: 2px solid #cc6b2e;
+}
+
 .drum-machine__play-button:active,
 .drum-machine__play-button-content:active {
 	box-shadow:none;
