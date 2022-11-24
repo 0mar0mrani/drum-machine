@@ -5,6 +5,7 @@ export default function DrumMachine() {
 	// Get Data from import
 	const sequencerModules = []
 	const allSequences = document.querySelectorAll('.drum-machine__sequencer');
+	
 	for (let index = 0; index < allSequences.length; index += 1) {
 		sequencerModules.push(Sequencer(allSequences[index], index));
 	}
@@ -290,7 +291,7 @@ export default function DrumMachine() {
 
 	function toggleExtremeTempo() {
 		if (drumMachine.isExtremeTempo) {
-			tempoSlider.setAttribute('max', 10000);
+			tempoSlider.setAttribute('max', 9999);
 		} else {
 			tempoSlider.setAttribute('max', 200);
 		}
