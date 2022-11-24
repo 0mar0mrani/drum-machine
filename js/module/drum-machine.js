@@ -79,7 +79,9 @@ export default function DrumMachine() {
 		const [newPattern, newBpm] = returnFetchPattern(genre);
 		applyNewDrumPattern(newPattern);
 		changeBpm(newBpm);
-		loadSamplesToBuffer(genre);
+		if (genre !== 'user') {
+			loadSamplesToBuffer(genre);
+		}
 		renderHtml();
 	}
 
@@ -207,7 +209,7 @@ export default function DrumMachine() {
 			sequencerModule.loadAudioIntoBuffer(drumMachine.audioContext, drumMachine.samples);
 		}
 
-		// selectSamples.value = genre;
+		selectSamples.value = genre;
 	}
 
 	function scheduler() {	
