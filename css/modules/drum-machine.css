@@ -198,6 +198,7 @@
 
 .drum-machine__step--active .drum-machine__sequencer-step-light {
 	background-color: #ff7681;
+	box-shadow: 0 0 1.5rem 0 #ff7681, 0 0 2px 1px rgba(0, 0, 0, 0.5);
 	transform: translateY(0rem);
 }
 
@@ -205,8 +206,9 @@
 	background-color: gray;
 }
 
-.drum-machine__sequencer-play-head {
-	background-color: gray;
+.drum-machine__sequencer-play-head .drum-machine__sequencer-step-light{
+	background-color: #ff7681;
+	box-shadow: 0 0 1.5rem 0 #ff7681, 0 0 2px 1px rgba(0, 0, 0, 0.5);
 }
 
 .drum-machine__save-button, 
@@ -255,6 +257,3 @@
 .drum-machine__clear-button:active .drum-machine__clear-button-content div {
 	transform: translateY(0);
 }
-
-
-
