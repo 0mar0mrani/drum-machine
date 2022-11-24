@@ -173,7 +173,7 @@
 
 	border-radius: 0.4rem;
 	position: relative;
-	transition: all 0.1s ease-in-out;
+	transition: box-shadow 0.1s ease-in-out;
 	box-shadow:  -0.3rem 0.6rem 15px rgba(0, 0, 0, 0.2);
 	z-index: 0;
 	background-color: #949494;
@@ -184,7 +184,7 @@
    height:100%;
 	box-shadow:inset 0px -8px 0px #888888, 0px -8px 0px #949494, -2px -8px 0px #888888;
 	border-radius: 0.2rem;
-	transition: 0.1s ease-in-out;
+	transition: box-shadow 0.1s ease-in-out;
 	z-index:10;
 	display: flex;
 	justify-content: center;
