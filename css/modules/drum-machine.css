@@ -238,6 +238,11 @@
 	box-shadow: 0 0 1.5rem 0 #ff7681, 0 0 2px 1px rgba(0, 0, 0, 0.5);
 }
 
+.drum-machine__step--active.drum-machine__sequencer-play-head .drum-machine__sequencer-step-light{
+	background-color: #f74b59;
+	box-shadow: 0 0 1.5rem 0 #f74b59, 0 0 2px 1px rgba(0, 0, 0, 0.5);
+}
+
 .drum-machine__save-button, 
 .drum-machine__clear-button {
 	display: flex;
