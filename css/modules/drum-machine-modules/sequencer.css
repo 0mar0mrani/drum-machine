@@ -96,6 +96,7 @@
 .drum-machine__step--deactivated .drum-machine__sequencer-step-light{
 	background-color: #5f5f5f;
 	border: solid 0.1rem #5f5f5f;
+	box-shadow: none;
 	transform: translateY(0rem);
 }
 
