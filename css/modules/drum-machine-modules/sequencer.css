@@ -149,5 +149,14 @@
 @media only screen and (max-width: 450px) {
 	.drum-machine__sequencer-step {
 		aspect-ratio : 1 / 2;
+		border-radius: 0.2rem;
+	}
+
+	.drum-machine__sequencer-step-content {
+		border-radius: 0.2rem;
+	}
+
+	.drum-machine__sequencer-step-light {
+		border-radius: 0.4rem;
 	}
 }
