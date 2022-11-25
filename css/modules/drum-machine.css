@@ -1,14 +1,13 @@
 .drum-machine {
 	max-width: 120rem;
-	justify-content: center;
-	align-items: center;
 	flex-grow: 1;
-	background-color: #d1cdcc;
 	padding: 2rem;
+	background-color: #d1cdcc;
 	border-radius: 1.5rem;
 	box-shadow: -2px 8px 0px #5f5f5f, -2px 0px 0px #5f5f5f;
 }
 
+/* Controllers */
 .drum-machine__controllers {
 	display: flex;
 	align-items: center;
@@ -17,28 +16,28 @@
 	margin-bottom: 2rem;
 }
 
+/* Toggle Play */
 .drum-machine__play-button {
 	display: flex;
-	border-left:2px solid #cc6b2e;
-	border-top:2px solid #cc6b2e;
-	border-bottom:2px solid #cc6b2e;
-	border-right: none;
-
-	border-radius: 0.4rem;
-	transition: all 0.1s ease-in-out;
-	box-shadow:  -0.3rem 0.6rem 15px rgba(0, 0, 0, 0.2);
-	z-index: 0;
-	background-color: #ff8639;
-
 	width: 8rem;
 	height: 8rem;
+	aspect-ratio: 1 / 1;
+	background-color: #ff8639;
+	border-left:2px solid #cc6b2e;
+	border-right: none;
+	border-top:2px solid #cc6b2e;
+	border-bottom:2px solid #cc6b2e;
+	border-radius: 0.4rem;
+	box-shadow:  -0.3rem 0.6rem 15px rgba(0, 0, 0, 0.2);
+	transition: all 0.1s ease-in-out;
+	z-index: 0;
 }
 
 .drum-machine__play-button-content {
 	width:100%;
    height:100%;
-	box-shadow:inset 0px -8px 0px #cc6b2e, 0px -8px 0px #ff8639, -2px -8px 0px #cc6b2e;
 	border-radius: 0.2rem;
+	box-shadow:inset 0px -8px 0px #cc6b2e, 0px -8px 0px #ff8639, -2px -8px 0px #cc6b2e;
 	transition: 0.1s ease-in-out;
 	z-index:10;
 }
@@ -63,35 +62,37 @@
 	transform: translateY(0);
 }
 
-.drum-machine__display {
-	background-color: #151515;
-	border-radius: 0.5rem;
-	padding: 2rem;
-	display: grid;
-	grid-template-columns: 1.5fr 2fr 2fr;
-	column-gap: 2rem;
-	row-gap: 1rem;
-}
-
+/* Tempo Slider */
 .drum-machine__tempo-slider-container {
 	width: 30%;
 }
 
 .drum-machine__tempo-slider {
 	width: 100%;
-	appearance: none;
 	height: 0.5rem;
 	border-radius: 1rem;
 	cursor: pointer;
+	appearance: none;
 }
 
 .drum-machine__tempo-slider::-webkit-slider-thumb {
-	appearance: none;
 	width: 2rem;
 	height: 6rem;
 	background-color: #ff8639;
 	border-radius: 0.4rem;
 	box-shadow: inset 0px -6px 0px #cc6b2e, inset 2px 0px 0px #cc6b2e;
+	appearance: none;
+}
+
+/* Display */
+.drum-machine__display {
+	display: grid;
+	grid-template-columns: 1.5fr 2fr 2fr;
+	column-gap: 2rem;
+	row-gap: 1rem;
+	padding: 2rem;
+	background-color: #151515;
+	border-radius: 0.5rem;
 }
 
 .drum-machine__select-pattern,
@@ -99,10 +100,27 @@
 .drum-machine__select-division,
 .drum-machine__tempo-extreme-button {
 	color: #dedfe0;
-	appearance: none;
 	background-color: inherit;
 	border: none;
 	cursor: pointer;
+	appearance: none;
+}
+
+.drum-machine__tempo-display {
+	grid-row: 2 / 3;
+	color: #dedfe0;
+	font-size: 4rem;
+	pointer-events: none;
+	user-select: none;
+	-webkit-user-select: none;
+}
+
+.drum-machine__select-pattern {
+	grid-column: 2 / 3;
+}
+
+.drum-machine__select-samples {
+	grid-row: 2 / 3;
 }
 
 .drum-machine__tempo-extreme-button {
@@ -113,23 +131,54 @@
 	color: #fd293b;
 }
 
-.drum-machine__tempo-display {
-	color: #dedfe0;
-	font-size: 4rem;
-	grid-row: 2 / 3;
-	pointer-events: none;
-	user-select: none;
-	-webkit-user-select: none;
+/* Save and clear buttons */
+.drum-machine__save-button, 
+.drum-machine__clear-button {
+	display: flex;
+	position: relative;
+	background-color: #949494;
+	font-size: 3rem;
+	font-weight: 500;
+	border-left:2px solid #888888;
+	border-right: none;
+	border-top:2px solid #888888;
+	border-bottom:2px solid #888888;
+	border-radius: 0.4rem;
+	box-shadow:  -0.3rem 0.6rem 15px #888888;
+	transition: all 0.1s ease-in-out;
+	z-index: 0;
 }
 
-.drum-machine__select-pattern {
-	grid-column: 2 / 3 ;
+.drum-machine__save-button-content,
+.drum-machine__clear-button-content {
+	width:100%;
+   height:100%;
+	padding: 1rem;
+	border-radius: 0.2rem;
+	box-shadow:inset 0px -8px 0px #888888, 0px -8px 0px #949494, -2px -8px 0px #888888;
+	transition: 0.1s ease-in-out;
+	z-index:10;
 }
 
-.drum-machine__select-samples {
-	grid-row: 2 / 3;
+.drum-machine__save-button:active, 
+.drum-machine__clear-button:active,
+.drum-machine__save-button:active .drum-machine__save-button-content,
+.drum-machine__clear-button:active .drum-machine__clear-button-content {
+	box-shadow: none;
 }
 
+.drum-machine__save-button-content div,
+.drum-machine__clear-button-content div {
+	transform: translateY(-0.8rem);
+	transition: all 0.1s ease-in-out;
+}
+
+.drum-machine__save-button:active .drum-machine__save-button-content div,
+.drum-machine__clear-button:active .drum-machine__clear-button-content div {
+	transform: translateY(0);
+}
+
+/* Sequencer */
 .drum-machine__sequencer {
 	display: flex;
 	align-items: center;;
@@ -160,45 +209,43 @@
 }
 
 .drum-machine__sequencer-step {
-	flex-grow: 1;
-	aspect-ratio : 1 / 1;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-
+	position: relative;
+	flex-grow: 1;
+	background-color: #949494;
+	aspect-ratio : 1 / 1;
 	border-left:2px solid #888888;
 	border-top:2px solid #888888;
 	border-bottom:2px solid #888888;
 	border-right: none;
-
 	border-radius: 0.4rem;
-	position: relative;
-	transition: box-shadow 0.1s ease-in-out;
 	box-shadow:  -0.3rem 0.6rem 15px rgba(0, 0, 0, 0.2);
+	transition: box-shadow 0.1s ease-in-out;
 	z-index: 0;
-	background-color: #949494;
 }
 
 .drum-machine__sequencer-step-content {
 	width:100%;
    height:100%;
-	box-shadow:inset 0px -8px 0px #888888, 0px -8px 0px #949494, -2px -8px 0px #888888;
-	border-radius: 0.2rem;
-	transition: box-shadow 0.1s ease-in-out;
-	z-index:10;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	border-radius: 0.2rem;
+	box-shadow:inset 0px -8px 0px #888888, 0px -8px 0px #949494, -2px -8px 0px #888888;
+	transition: box-shadow 0.1s ease-in-out;
+	z-index:10;
 }
 
 .drum-machine__sequencer-step-light {
 	width: 75%;
 	height: 75%;
 	background-color: #a0a0a0;
+	border: solid 0.1rem #7a7a7a53;
+	border-radius: 0.5rem;
 	transform: translateY(-0.8rem);
 	transition: transform 0.1s ease-in-out;
-	border-radius: 0.5rem;
-	border: solid 0.1rem #7a7a7a53;
 }
 
 .drum-machine__step--active .drum-machine__sequencer-step-content {
@@ -241,52 +288,4 @@
 .drum-machine__step--active.drum-machine__sequencer-play-head .drum-machine__sequencer-step-light{
 	background-color: #f74b59;
 	box-shadow: 0 0 1.5rem 0 #f74b59, 0 0 2px 1px rgba(0, 0, 0, 0.5);
-}
-
-.drum-machine__save-button, 
-.drum-machine__clear-button {
-	display: flex;
-	font-size: 3rem;
-
-	border-left:2px solid #888888;
-	border-top:2px solid #888888;
-	border-bottom:2px solid #888888;
-	border-right: none;
-
-	border-radius: 0.4rem;
-	position: relative;
-	transition: all 0.1s ease-in-out;
-	box-shadow:  -0.3rem 0.6rem 15px rgba(0, 0, 0, 0.2);
-	z-index: 0;
-
-	background-color: #949494;
-}
-
-.drum-machine__save-button-content,
-.drum-machine__clear-button-content {
-	padding: 1rem;
-	width:100%;
-   height:100%;
-	box-shadow:inset 0px -8px 0px #888888, 0px -8px 0px #949494, -2px -8px 0px #888888;
-	border-radius: 0.2rem;
-	transition: 0.1s ease-in-out;
-	z-index:10;
-}
-
-.drum-machine__save-button:active, 
-.drum-machine__clear-button:active,
-.drum-machine__save-button:active .drum-machine__save-button-content,
-.drum-machine__clear-button:active .drum-machine__clear-button-content {
-	box-shadow: none;
-}
-
-.drum-machine__save-button-content div,
-.drum-machine__clear-button-content div {
-	transform: translateY(-0.8rem);
-	transition: all 0.1s ease-in-out;
-}
-
-.drum-machine__save-button:active .drum-machine__save-button-content div,
-.drum-machine__clear-button:active .drum-machine__clear-button-content div {
-	transform: translateY(0);
 }
