@@ -27,13 +27,15 @@
 }
 
 @media only screen and (max-width: 600px) {
-	.drum-machine__tempo-slider-container {
-		flex-basis: 100%;
-		margin-bottom: 1rem;
-	}
-
 	.drum-machine__tempo-slider::-webkit-slider-thumb {
 		width: 1.5rem;
 		height: 4rem;
+	}
+}
+
+@media only screen and (max-width: 350px) {
+	.drum-machine__tempo-slider-container {
+		flex-basis: 100%;
+		margin-bottom: 1rem;
 	}
 }

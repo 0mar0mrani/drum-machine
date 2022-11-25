@@ -53,7 +53,7 @@
 	.drum-machine__play-button {
 		width: 5rem;
 		height: 5rem;
-		order: 2;
+		/* order: 0; */
 	}
 
 	.drum-machine__play-button-content {
@@ -62,5 +62,11 @@
 
 	.drum-machine__play-button img {
 		transform: translateY(-0.4rem);
+	}
+}
+
+@media only screen and (max-width: 350px) {
+	.drum-machine__play-button {
+		order: 2;
 	}
 }
