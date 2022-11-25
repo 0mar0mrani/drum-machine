@@ -42,6 +42,5 @@
 
 	.drum-machine__controllers {
 		justify-content: unset;
-		/* row-gap: 1rem; */
 	}
 }
