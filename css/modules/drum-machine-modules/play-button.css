@@ -42,3 +42,25 @@
 .drum-machine__play-button:active img {
 	transform: translateY(0);
 }
+
+@media only screen and (max-width: 800px) {
+	.drum-machine__play-button {
+		order: 1;
+	}
+}
+
+@media only screen and (max-width: 600px) {
+	.drum-machine__play-button {
+		width: 5rem;
+		height: 5rem;
+		order: 2;
+	}
+
+	.drum-machine__play-button-content {
+		box-shadow:inset 0px -4px 0px #cc6b2e, 0px -4px 0px #ff8639, -1px -4px 0px #cc6b2e;
+	}
+
+	.drum-machine__play-button img {
+		transform: translateY(-0.4rem);
+	}
+}
