@@ -21,3 +21,27 @@
 	gap: 1rem;
 	margin-bottom: 2rem;
 }
+
+@media only screen and (max-width: 800px) {
+	.drum-machine {
+		padding: 1rem;
+	}
+
+	.drum-machine__controllers {
+		flex-wrap: wrap;
+		margin-bottom: 1rem;
+	}
+}
+
+@media only screen and (max-width: 600px) {
+	.drum-machine {
+		margin: 0;
+		padding: 0.5rem;
+		box-shadow: -1px 4px 0px #5f5f5f, -1px 0px 0px #5f5f5f;
+	}
+
+	.drum-machine__controllers {
+		justify-content: unset;
+		/* row-gap: 1rem; */
+	}
+}
