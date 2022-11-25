@@ -18,3 +18,22 @@
 	box-shadow: inset 0px -6px 0px #cc6b2e, inset 2px 0px 0px #cc6b2e;
 	appearance: none;
 }
+
+@media only screen and (max-width: 800px) {
+	.drum-machine__tempo-slider-container {
+		order: 1;
+		flex-grow: 1;
+	}
+}
+
+@media only screen and (max-width: 600px) {
+	.drum-machine__tempo-slider-container {
+		flex-basis: 100%;
+		margin-bottom: 1rem;
+	}
+
+	.drum-machine__tempo-slider::-webkit-slider-thumb {
+		width: 1.5rem;
+		height: 4rem;
+	}
+}
