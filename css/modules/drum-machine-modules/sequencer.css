@@ -1,4 +1,3 @@
-/* Sequencer */
 .drum-machine__sequencer {
 	display: flex;
 	align-items: center;;
@@ -108,4 +107,47 @@
 .drum-machine__step--active.drum-machine__sequencer-play-head .drum-machine__sequencer-step-light{
 	background-color: #f74b59;
 	box-shadow: 0 0 1.5rem 0 #f74b59, 0 0 2px 1px rgba(0, 0, 0, 0.5);
+}
+
+@media only screen and (max-width: 1200px) {
+	.drum-machine__sequencer {
+		gap: 0.8%;
+	}
+
+	.drum-machine__sequencer:not(:last-child) {
+		margin-bottom: 0.5vw;
+	}
+
+	.drum-machine__sequencer-sample {
+		width: 3vw;
+		height: 3vw;
+	}
+}
+
+@media only screen and (max-width: 800px) {
+	.drum-machine__sequencer-step-content {
+		box-shadow:inset 0px -4px 0px #888888, 0px -4px 0px #949494, -1px -4px 0px #888888;
+	}
+
+	.drum-machine__sequencer-step {
+		border-left:1px solid #888888;
+		border-top:1px solid #888888;
+		border-bottom:1px solid #888888;
+	}
+
+	.drum-machine__sequencer-step-light {
+		width: 85%;
+		height: 85%;
+		transform: translateY(-0.4rem);
+	}
+
+	.drum-machine__sequencer-sample {
+		display: none;
+	}
+}
+
+@media only screen and (max-width: 450px) {
+	.drum-machine__sequencer-step {
+		aspect-ratio : 1 / 2;
+	}
 }
