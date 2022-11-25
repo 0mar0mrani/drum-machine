@@ -1,0 +1,45 @@
+.drum-machine__display {
+	display: grid;
+	grid-template-columns: 1.5fr 2fr 2fr;
+	column-gap: 2rem;
+	row-gap: 1rem;
+	padding: 2rem;
+	background-color: #151515;
+	border-radius: 0.5rem;
+}
+
+.drum-machine__select-pattern,
+.drum-machine__select-samples,
+.drum-machine__select-division,
+.drum-machine__tempo-extreme-button {
+	color: #dedfe0;
+	background-color: inherit;
+	border: none;
+	cursor: pointer;
+	appearance: none;
+}
+
+.drum-machine__tempo-display {
+	grid-row: 2 / 3;
+	color: #dedfe0;
+	font-size: 4rem;
+	pointer-events: none;
+	user-select: none;
+	-webkit-user-select: none;
+}
+
+.drum-machine__select-pattern {
+	grid-column: 2 / 3;
+}
+
+.drum-machine__select-samples {
+	grid-row: 2 / 3;
+}
+
+.drum-machine__tempo-extreme-button {
+	text-align: start;
+}
+
+.drum-machine__tempo-extreme-button--active {
+	color: #fd293b;
+}
