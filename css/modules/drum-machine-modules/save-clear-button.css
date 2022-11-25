@@ -43,3 +43,34 @@
 .drum-machine__clear-button:active .drum-machine__clear-button-content div {
 	transform: translateY(0);
 }
+
+@media only screen and (max-width: 800px) {
+	.drum-machine__save-button, 
+	.drum-machine__clear-button {
+		order: 3;
+	}
+}
+
+@media only screen and (max-width: 600px) {
+	.drum-machine__save-button {
+		margin-left: auto;
+	}
+	
+	.drum-machine__save-button, 
+	.drum-machine__clear-button {
+		font-size: 2rem;
+		font-weight: 400;
+		box-shadow:  -0.15rem 0.3rem 15px #888888;
+	}
+
+	.drum-machine__save-button-content div,
+	.drum-machine__clear-button-content div {
+		transform: translateY(-0.4rem);
+	}
+
+	.drum-machine__save-button-content,
+	.drum-machine__clear-button-content {
+		padding: 0.5rem;
+		box-shadow:inset 0px -4px 0px #888888, 0px -4px 0px #949494, -1px -4px 0px #888888;
+	}
+}
