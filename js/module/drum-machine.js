@@ -1,5 +1,5 @@
-import Sequencer from "./sequencer.js";
-import Patterns from "./patterns.js";
+import Sequencer from './drum-machine-modules/sequencer.js';
+import Patterns from './drum-machine-modules/patterns.js';
 
 export default function DrumMachine() {
 	// Get Data from import
