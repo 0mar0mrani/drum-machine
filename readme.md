@@ -1,5 +1,5 @@
 # Drum Machine
-This is a drum machine where you can sequence patterns on 4 different tracks and it's built by using vanilla JavaScript, css and HTML. 
+This is a drum machine where you can sequence patterns 4 different tracks. It's built with vanilla JavaScript, css and HTML. 
 
 ## About
 JavaScript and its Audio API can be a bit hard to work with when it comes to timing - but I wanted to challenge myself and not use libraries such as [tone.js](https://tonejs.github.io).
